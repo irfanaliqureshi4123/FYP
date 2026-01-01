@@ -1,0 +1,93 @@
+[
+  {
+    "id": "dept-uni-1-1",
+    "universityId": "university-1",
+    "name": "School of Engineering",
+    "description": "Advanced engineering research and postgraduate programs across multiple disciplines.",
+    "hod": "Prof. Robert Johnson",
+    "memberCount": 2100,
+    "batches": ["batch-uni-1-1-2021", "batch-uni-1-1-2022", "batch-uni-1-1-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-05T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-uni-1-2",
+    "universityId": "university-1",
+    "name": "School of Science",
+    "description": "Research-focused programs in physics, chemistry, mathematics, and biology.",
+    "hod": "Dr. Alice Williams",
+    "memberCount": 1850,
+    "batches": ["batch-uni-1-2-2021", "batch-uni-1-2-2022", "batch-uni-1-2-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-05T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-uni-1-3",
+    "universityId": "university-1",
+    "name": "School of Management",
+    "description": "Postgraduate management and business research programs.",
+    "hod": "Prof. Michael Brown",
+    "memberCount": 1600,
+    "batches": ["batch-uni-1-3-2021", "batch-uni-1-3-2022", "batch-uni-1-3-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-05T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-uni-1-4",
+    "universityId": "university-1",
+    "name": "School of Liberal Arts",
+    "description": "Interdisciplinary programs in humanities, social sciences, and cultural studies.",
+    "hod": "Dr. Sarah Davis",
+    "memberCount": 1350,
+    "batches": ["batch-uni-1-4-2021", "batch-uni-1-4-2022", "batch-uni-1-4-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-05T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-uni-2-1",
+    "universityId": "university-2",
+    "name": "Department of Physics",
+    "description": "Advanced physics research with specialization in quantum mechanics and astrophysics.",
+    "hod": "Prof. Luis Martinez",
+    "memberCount": 1400,
+    "batches": ["batch-uni-2-1-2021", "batch-uni-2-1-2022", "batch-uni-2-1-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-03-20T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-uni-2-2",
+    "universityId": "university-2",
+    "name": "Department of Chemistry",
+    "description": "Research programs in organic, inorganic, and physical chemistry.",
+    "hod": "Dr. Jennifer Lee",
+    "memberCount": 1200,
+    "batches": ["batch-uni-2-2-2021", "batch-uni-2-2-2022", "batch-uni-2-2-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-03-20T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-uni-2-3",
+    "universityId": "university-2",
+    "name": "Department of Humanities",
+    "description": "Graduate programs in literature, history, philosophy, and cultural studies.",
+    "hod": "Prof. Christopher Green",
+    "memberCount": 1100,
+    "batches": ["batch-uni-2-3-2021", "batch-uni-2-3-2022", "batch-uni-2-3-2023"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-03-20T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  }
+]

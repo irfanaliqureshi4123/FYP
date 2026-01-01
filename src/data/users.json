@@ -1,0 +1,194 @@
+[
+    {
+        "id": 1,
+        "username": "sarahchen",
+        "name": "Sarah Chen",
+        "title": "Senior Software Engineer @ Google",
+        "avatar": "https://i.pravatar.cc/150?img=5",
+        "coverImage": "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=300&fit=crop",
+        "bio": "Passionate about building scalable systems and mentoring aspiring developers. 💻 Open to career discussions!",
+        "location": "San Francisco, CA",
+        "website": "https://sarahchen.dev",
+        "skills": [
+            "React",
+            "Node.js",
+            "System Design",
+            "Leadership",
+            "Mentoring"
+        ],
+        "interests": [
+            "Tech",
+            "AI",
+            "Web Development"
+        ],
+        "followers": 12500,
+        "following": 842,
+        "posts": 156,
+        "verified": true,
+        "online": true,
+        "careerGoals": [
+            "Lead engineering team",
+            "Contribute to open source",
+            "Launch a tech startup"
+        ],
+        "achievements": [
+            {
+                "id": 1,
+                "title": "Published Author",
+                "description": "Wrote 'Modern React Patterns'",
+                "icon": "📚",
+                "date": "2024-01"
+            },
+            {
+                "id": 2,
+                "title": "Tech Speaker",
+                "description": "Keynote at React Conf 2024",
+                "icon": "🎤",
+                "date": "2024-06"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "username": "alexmorgan",
+        "name": "Alex Morgan",
+        "title": "Product Designer @ Airbnb",
+        "avatar": "https://i.pravatar.cc/150?img=12",
+        "coverImage": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=300&fit=crop",
+        "bio": "Creating delightful user experiences through thoughtful design. 🎨 Always learning!",
+        "location": "New York, NY",
+        "website": "https://alexmorgan.design",
+        "skills": [
+            "UI/UX Design",
+            "Figma",
+            "User Research",
+            "Prototyping",
+            "Design Systems"
+        ],
+        "interests": [
+            "Design",
+            "UX Research",
+            "Product Strategy"
+        ],
+        "followers": 8340,
+        "following": 523,
+        "posts": 89,
+        "verified": true,
+        "online": false,
+        "careerGoals": [
+            "Design Director role",
+            "Build design system",
+            "Mentor junior designers"
+        ],
+        "achievements": [
+            {
+                "id": 1,
+                "title": "Design Award",
+                "description": "Won UX Awards 2024",
+                "icon": "🏆",
+                "date": "2024-03"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "username": "davidkim",
+        "name": "David Kim",
+        "title": "Data Scientist @ Netflix",
+        "avatar": "https://i.pravatar.cc/150?img=33",
+        "coverImage": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&h=300&fit=crop",
+        "bio": "Turning data into actionable insights. Machine learning enthusiast 🤖",
+        "location": "Los Angeles, CA",
+        "skills": [
+            "Python",
+            "Machine Learning",
+            "Data Analysis",
+            "SQL",
+            "TensorFlow"
+        ],
+        "interests": [
+            "Data",
+            "AI",
+            "Analytics"
+        ],
+        "followers": 5230,
+        "following": 340,
+        "posts": 67,
+        "verified": false,
+        "online": true,
+        "careerGoals": [
+            "Lead ML team",
+            "Publish research papers"
+        ],
+        "achievements": []
+    },
+    {
+        "id": 4,
+        "username": "emilyroberts",
+        "name": "Emily Roberts",
+        "title": "Marketing Manager @ HubSpot",
+        "avatar": "https://i.pravatar.cc/150?img=47",
+        "coverImage": "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?w=1200&h=300&fit=crop",
+        "bio": "Growth marketer helping brands tell their stories. 📈 Content creator & strategist",
+        "location": "Boston, MA",
+        "skills": [
+            "Content Marketing",
+            "SEO",
+            "Social Media",
+            "Analytics",
+            "Copywriting"
+        ],
+        "interests": [
+            "Business",
+            "Marketing",
+            "Entrepreneurship"
+        ],
+        "followers": 9820,
+        "following": 612,
+        "posts": 142,
+        "verified": true,
+        "online": false,
+        "careerGoals": [
+            "CMO position",
+            "Build personal brand"
+        ],
+        "achievements": [
+            {
+                "id": 1,
+                "title": "Campaign Success",
+                "description": "Led 300% growth campaign",
+                "icon": "📊",
+                "date": "2024-02"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "username": "michaelbrown",
+        "name": "Michael Brown",
+        "title": "Healthcare Consultant @ McKinsey",
+        "avatar": "https://i.pravatar.cc/150?img=68",
+        "bio": "Helping healthcare organizations improve patient outcomes through strategic consulting",
+        "location": "Chicago, IL",
+        "skills": [
+            "Healthcare Strategy",
+            "Consulting",
+            "Project Management",
+            "Data Analysis"
+        ],
+        "interests": [
+            "Healthcare",
+            "Business",
+            "Strategy"
+        ],
+        "followers": 6540,
+        "following": 421,
+        "posts": 52,
+        "verified": false,
+        "careerGoals": [
+            "Partner at consulting firm",
+            "Improve healthcare access"
+        ],
+        "achievements": []
+    }
+]

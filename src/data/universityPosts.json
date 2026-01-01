@@ -1,0 +1,44 @@
+[
+  {
+    "id": "post-uni-1",
+    "departmentId": "dept-uni-1-1",
+    "universityId": "university-1",
+    "author": "Prof. Robert Johnson",
+    "role": "School Dean",
+    "avatar": "RJ",
+    "title": "Research Grants Awarded",
+    "content": "Congratulations to our researchers who have been awarded significant research grants for their groundbreaking work in sustainable engineering. This validates our commitment to research excellence.",
+    "timestamp": "2025-01-08T11:20:00Z",
+    "likes": 324,
+    "comments": 42,
+    "replies": 15
+  },
+  {
+    "id": "post-uni-2",
+    "departmentId": "dept-uni-1-2",
+    "universityId": "university-1",
+    "author": "Dr. Alice Williams",
+    "role": "School Dean",
+    "avatar": "AW",
+    "title": "International Collaboration",
+    "content": "Excited to announce our new research partnership with leading European universities. Graduate students now have opportunities for collaborative research abroad.",
+    "timestamp": "2025-01-07T15:30:00Z",
+    "likes": 287,
+    "comments": 38,
+    "replies": 10
+  },
+  {
+    "id": "post-uni-3",
+    "departmentId": "dept-uni-2-1",
+    "universityId": "university-2",
+    "author": "Prof. Luis Martinez",
+    "role": "Department Head",
+    "avatar": "LM",
+    "title": "Upcoming Seminar Series",
+    "content": "Join our monthly seminar series featuring distinguished scientists and researchers. January's speaker is from CERN. Seats are limited, register now!",
+    "timestamp": "2025-01-05T10:00:00Z",
+    "likes": 412,
+    "comments": 67,
+    "replies": 22
+  }
+]

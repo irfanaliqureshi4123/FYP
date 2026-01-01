@@ -1,0 +1,162 @@
+[
+    {
+        "id": 1,
+        "userId": 1,
+        "username": "sarahchen",
+        "name": "Sarah Chen",
+        "avatar": "https://i.pravatar.cc/150?img=5",
+        "verified": true,
+        "content": "Just shipped a major feature at work! 🚀 Learned so much about system design and scalability in the process. Remember: Start small, iterate fast, and always prioritize user experience. #SoftwareEngineering #CareerWin",
+        "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=500&fit=crop",
+        "timestamp": "2024-12-25T10:30:00Z",
+        "likes": 342,
+        "comments": 45,
+        "shares": 23,
+        "hashtags": [
+            "SoftwareEngineering",
+            "CareerWin"
+        ],
+        "type": "post"
+    },
+    {
+        "id": 2,
+        "userId": 2,
+        "username": "alexmorgan",
+        "name": "Alex Morgan",
+        "avatar": "https://i.pravatar.cc/150?img=12",
+        "verified": true,
+        "content": "Question for my fellow designers: What's your go-to process for user research? Looking to refine my approach for an upcoming project. 🎨",
+        "poll": {
+            "question": "Preferred user research method?",
+            "options": [
+                {
+                    "id": 1,
+                    "text": "User interviews",
+                    "votes": 145,
+                    "percentage": 45
+                },
+                {
+                    "id": 2,
+                    "text": "Surveys",
+                    "votes": 97,
+                    "percentage": 30
+                },
+                {
+                    "id": 3,
+                    "text": "A/B testing",
+                    "votes": 81,
+                    "percentage": 25
+                }
+            ],
+            "totalVotes": 323,
+            "endsIn": "2 days"
+        },
+        "timestamp": "2024-12-25T08:15:00Z",
+        "likes": 156,
+        "comments": 67,
+        "shares": 12,
+        "hashtags": [
+            "UXDesign",
+            "UserResearch"
+        ],
+        "type": "poll"
+    },
+    {
+        "id": 3,
+        "userId": 3,
+        "username": "davidkim",
+        "name": "David Kim",
+        "avatar": "https://i.pravatar.cc/150?img=33",
+        "verified": false,
+        "content": "Completed my first machine learning project from scratch! Built a recommendation system that improved user engagement by 35%. Key lessons: Clean data is everything, start with simple models, and iterate. #DataScience #MachineLearning",
+        "images": [
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+        ],
+        "timestamp": "2024-12-24T16:45:00Z",
+        "likes": 234,
+        "comments": 38,
+        "shares": 45,
+        "hashtags": [
+            "DataScience",
+            "MachineLearning"
+        ],
+        "type": "post"
+    },
+    {
+        "id": 4,
+        "userId": 4,
+        "username": "emilyroberts",
+        "name": "Emily Roberts",
+        "avatar": "https://i.pravatar.cc/150?img=47",
+        "verified": true,
+        "content": "5 content marketing strategies that drove 300% growth for our brand this year:\n\n1. Authentic storytelling\n2. Data-driven optimization\n3. Community engagement\n4. Video content\n5. SEO-first approach\n\nWhat worked for you? #Marketing #ContentStrategy",
+        "timestamp": "2024-12-24T14:20:00Z",
+        "likes": 567,
+        "comments": 89,
+        "shares": 128,
+        "hashtags": [
+            "Marketing",
+            "ContentStrategy",
+            "Growth"
+        ],
+        "type": "post"
+    },
+    {
+        "id": 5,
+        "userId": 1,
+        "username": "sarahchen",
+        "name": "Sarah Chen",
+        "avatar": "https://i.pravatar.cc/150?img=5",
+        "verified": true,
+        "content": "Career advice for junior developers: Don't just focus on coding. Build these skills too:\n\n✨ Communication\n✨ Problem-solving\n✨ Time management\n✨ Continuous learning\n✨ Collaboration\n\nTechnical skills get you in the door. Soft skills help you grow. #CareerAdvice",
+        "timestamp": "2024-12-24T09:00:00Z",
+        "likes": 891,
+        "comments": 112,
+        "shares": 234,
+        "hashtags": [
+            "CareerAdvice",
+            "SoftwareEngineering",
+            "JuniorDev"
+        ],
+        "type": "post"
+    },
+    {
+        "id": 6,
+        "userId": 5,
+        "username": "michaelbrown",
+        "name": "Michael Brown",
+        "avatar": "https://i.pravatar.cc/150?img=68",
+        "verified": false,
+        "content": "Exciting news! Just accepted a consulting project focused on improving patient care delivery systems. Healthcare innovation is where technology meets humanity. Can't wait to share the journey! #Healthcare #Consulting",
+        "timestamp": "2024-12-23T18:30:00Z",
+        "likes": 145,
+        "comments": 28,
+        "shares": 15,
+        "hashtags": [
+            "Healthcare",
+            "Consulting",
+            "Innovation"
+        ],
+        "type": "post"
+    },
+    {
+        "id": 7,
+        "userId": 2,
+        "username": "alexmorgan",
+        "name": "Alex Morgan",
+        "avatar": "https://i.pravatar.cc/150?img=12",
+        "verified": true,
+        "content": "Huge milestone! Our design system just hit version 2.0 🎉 Thanks to everyone who contributed. This will help our team ship products 3x faster while maintaining consistency. Open to feedback! #DesignSystems #ProductDesign",
+        "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=500&fit=crop",
+        "timestamp": "2024-12-23T12:00:00Z",
+        "likes": 423,
+        "comments": 56,
+        "shares": 67,
+        "hashtags": [
+            "DesignSystems",
+            "ProductDesign"
+        ],
+        "type": "post"
+    }
+]

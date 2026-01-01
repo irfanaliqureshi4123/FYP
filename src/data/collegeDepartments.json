@@ -1,0 +1,67 @@
+[
+  {
+    "id": "dept-college-1-1",
+    "collegeId": "college-1",
+    "name": "Computer Science and Engineering",
+    "description": "Cutting-edge computer science programs with focus on AI, machine learning, and software development.",
+    "hod": "Dr. Vikram Patel",
+    "memberCount": 850,
+    "batches": ["batch-college-1-1-2022", "batch-college-1-1-2023", "batch-college-1-1-2024"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-10T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-college-1-2",
+    "collegeId": "college-1",
+    "name": "Electrical Engineering",
+    "description": "Comprehensive electrical engineering curriculum covering power systems, electronics, and renewable energy.",
+    "hod": "Prof. Arjun Singh",
+    "memberCount": 650,
+    "batches": ["batch-college-1-2-2022", "batch-college-1-2-2023", "batch-college-1-2-2024"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-10T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-college-1-3",
+    "collegeId": "college-1",
+    "name": "Civil Engineering",
+    "description": "Infrastructure and construction engineering with focus on sustainable development.",
+    "hod": "Dr. Priya Sharma",
+    "memberCount": 700,
+    "batches": ["batch-college-1-3-2022", "batch-college-1-3-2023", "batch-college-1-3-2024"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-01-10T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-college-2-1",
+    "collegeId": "college-2",
+    "name": "Business Administration",
+    "description": "Comprehensive management and business administration programs for aspiring leaders.",
+    "hod": "Prof. Ramesh Kumar",
+    "memberCount": 1200,
+    "batches": ["batch-college-2-1-2022", "batch-college-2-1-2023", "batch-college-2-1-2024"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-02-15T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  },
+  {
+    "id": "dept-college-2-2",
+    "collegeId": "college-2",
+    "name": "Finance and Economics",
+    "description": "Specialized programs in financial management, economics, and investment banking.",
+    "hod": "Dr. Neha Gupta",
+    "memberCount": 1000,
+    "batches": ["batch-college-2-2-2022", "batch-college-2-2-2023", "batch-college-2-2-2024"],
+    "coverImage": null,
+    "isPublic": true,
+    "createdAt": "2024-02-15T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z"
+  }
+]

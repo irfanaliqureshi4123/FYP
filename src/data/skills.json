@@ -1,0 +1,169 @@
+[
+    {
+        "id": 1,
+        "name": "JavaScript",
+        "category": "Tech",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "Software Engineer",
+            "Full Stack Developer"
+        ],
+        "learningTime": "3-6 months"
+    },
+    {
+        "id": 2,
+        "name": "React",
+        "category": "Tech",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "Software Engineer",
+            "Frontend Developer"
+        ],
+        "learningTime": "2-4 months"
+    },
+    {
+        "id": 3,
+        "name": "Python",
+        "category": "Tech",
+        "difficulty": "Easy",
+        "relatedCareers": [
+            "Data Scientist",
+            "Software Engineer",
+            "DevOps Engineer"
+        ],
+        "learningTime": "2-4 months"
+    },
+    {
+        "id": 4,
+        "name": "Figma",
+        "category": "Design",
+        "difficulty": "Easy",
+        "relatedCareers": [
+            "UX/UI Designer",
+            "Product Designer"
+        ],
+        "learningTime": "1-2 months"
+    },
+    {
+        "id": 5,
+        "name": "UI/UX Design",
+        "category": "Design",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "UX/UI Designer",
+            "Product Designer"
+        ],
+        "learningTime": "4-8 months"
+    },
+    {
+        "id": 6,
+        "name": "Machine Learning",
+        "category": "Data",
+        "difficulty": "Hard",
+        "relatedCareers": [
+            "Data Scientist",
+            "ML Engineer"
+        ],
+        "learningTime": "6-12 months"
+    },
+    {
+        "id": 7,
+        "name": "SQL",
+        "category": "Data",
+        "difficulty": "Easy",
+        "relatedCareers": [
+            "Data Analyst",
+            "Data Scientist",
+            "Software Engineer"
+        ],
+        "learningTime": "1-2 months"
+    },
+    {
+        "id": 8,
+        "name": "Node.js",
+        "category": "Tech",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "Full Stack Developer",
+            "Backend Engineer"
+        ],
+        "learningTime": "2-4 months"
+    },
+    {
+        "id": 9,
+        "name": "Content Marketing",
+        "category": "Business",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "Marketing Manager",
+            "Content Strategist"
+        ],
+        "learningTime": "3-6 months"
+    },
+    {
+        "id": 10,
+        "name": "AWS",
+        "category": "Tech",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "DevOps Engineer",
+            "Cloud Architect"
+        ],
+        "learningTime": "4-6 months"
+    },
+    {
+        "id": 11,
+        "name": "Docker",
+        "category": "Tech",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "DevOps Engineer",
+            "Software Engineer"
+        ],
+        "learningTime": "2-3 months"
+    },
+    {
+        "id": 12,
+        "name": "Data Visualization",
+        "category": "Data",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "Data Analyst",
+            "Business Intelligence Analyst"
+        ],
+        "learningTime": "2-4 months"
+    },
+    {
+        "id": 13,
+        "name": "SEO",
+        "category": "Business",
+        "difficulty": "Medium",
+        "relatedCareers": [
+            "Digital Marketing Manager",
+            "Content Strategist"
+        ],
+        "learningTime": "3-6 months"
+    },
+    {
+        "id": 14,
+        "name": "Cybersecurity",
+        "category": "Tech",
+        "difficulty": "Hard",
+        "relatedCareers": [
+            "Cybersecurity Analyst",
+            "Security Engineer"
+        ],
+        "learningTime": "6-12 months"
+    },
+    {
+        "id": 15,
+        "name": "Product Strategy",
+        "category": "Business",
+        "difficulty": "Hard",
+        "relatedCareers": [
+            "Product Manager",
+            "Product Lead"
+        ],
+        "learningTime": "12+ months"
+    }
+]

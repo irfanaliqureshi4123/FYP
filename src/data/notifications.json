@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "type": "like",
+        "userId": 2,
+        "username": "alexmorgan",
+        "avatar": "https://i.pravatar.cc/150?img=12",
+        "action": "liked your post",
+        "content": "Just shipped a major feature at work!",
+        "timestamp": "2024-12-25T12:00:00Z",
+        "read": false
+    },
+    {
+        "id": 2,
+        "type": "comment",
+        "userId": 3,
+        "username": "davidkim",
+        "avatar": "https://i.pravatar.cc/150?img=33",
+        "action": "commented on your post",
+        "content": "Great insights! How did you handle the scalability challenges?",
+        "timestamp": "2024-12-25T10:30:00Z",
+        "read": false
+    },
+    {
+        "id": 3,
+        "type": "follow",
+        "userId": 4,
+        "username": "emilyroberts",
+        "avatar": "https://i.pravatar.cc/150?img=47",
+        "action": "started following you",
+        "timestamp": "2024-12-24T16:45:00Z",
+        "read": true
+    },
+    {
+        "id": 4,
+        "type": "mention",
+        "userId": 5,
+        "username": "michaelbrown",
+        "avatar": "https://i.pravatar.cc/150?img=68",
+        "action": "mentioned you in a post",
+        "content": "Thanks to @sarahchen for the career advice!",
+        "timestamp": "2024-12-24T14:20:00Z",
+        "read": true
+    },
+    {
+        "id": 5,
+        "type": "share",
+        "userId": 2,
+        "username": "alexmorgan",
+        "avatar": "https://i.pravatar.cc/150?img=12",
+        "action": "shared your post",
+        "content": "Career advice for junior developers",
+        "timestamp": "2024-12-24T09:15:00Z",
+        "read": true
+    }
+]

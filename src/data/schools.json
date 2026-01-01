@@ -1,0 +1,52 @@
+[
+  {
+    "id": "school-1",
+    "name": "Green Valley High School",
+    "logo": "",
+    "banner": "",
+    "description": "Green Valley High School is a premier educational institution dedicated to nurturing excellence in academics, sports, and character development. With state-of-the-art facilities and experienced faculty, we prepare students for a bright future.",
+    "location": "123 Education Street, City, State 12345",
+    "type": "Private",
+    "contact": {
+      "phone": "+1 (555) 123-4567",
+      "email": "info@greenvalley.edu",
+      "website": "https://greenvalley.edu"
+    },
+    "foundedYear": 1995,
+    "principalName": "Dr. James Mitchell",
+    "totalStudents": 1250,
+    "totalTeachers": 85,
+    "verified": true,
+    "followers": 3420,
+    "createdAt": "2024-01-15T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z",
+    "motto": "Excellence in Education, Character in Action",
+    "accreditation": "ACSEE Accredited",
+    "colors": ["#10B981", "#059669"]
+  },
+  {
+    "id": "school-2",
+    "name": "Bright Future Academy",
+    "logo": "",
+    "banner": "",
+    "description": "Bright Future Academy empowers students with innovative teaching methods and holistic development programs. We believe in unleashing the potential within every student.",
+    "location": "456 Learning Avenue, City, State 67890",
+    "type": "NGO",
+    "contact": {
+      "phone": "+1 (555) 234-5678",
+      "email": "contact@brightfuture.edu",
+      "website": "https://brightfuture.edu"
+    },
+    "foundedYear": 2005,
+    "principalName": "Ms. Sarah Williams",
+    "totalStudents": 980,
+    "totalTeachers": 65,
+    "verified": true,
+    "followers": 2850,
+    "createdAt": "2024-02-20T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z",
+    "motto": "Learning Today, Leading Tomorrow",
+    "accreditation": "ISO 9001 Certified",
+    "colors": ["#3B82F6", "#1D4ED8"]
+  }
+]

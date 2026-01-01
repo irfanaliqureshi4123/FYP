@@ -1,0 +1,190 @@
+[
+    {
+        "id": 1,
+        "title": "Software Engineer",
+        "category": "Tech",
+        "description": "Design, develop, and maintain software applications and systems",
+        "salaryRange": "$80,000 - $180,000/year",
+        "experienceLevel": "Entry to Senior",
+        "skills": [
+            "JavaScript",
+            "Python",
+            "React",
+            "Node.js",
+            "SQL",
+            "Git"
+        ],
+        "education": "Bachelor's in Computer Science or related field",
+        "growth": "23% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 2,
+        "title": "UX/UI Designer",
+        "category": "Design",
+        "description": "Create intuitive and visually appealing user interfaces for digital products",
+        "salaryRange": "$60,000 - $140,000/year",
+        "experienceLevel": "Entry to Senior",
+        "skills": [
+            "Figma",
+            "Adobe XD",
+            "User Research",
+            "Prototyping",
+            "Visual Design",
+            "HTML/CSS"
+        ],
+        "education": "Bachelor's in Design, HCI, or related field",
+        "growth": "16% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 3,
+        "title": "Data Scientist",
+        "category": "Data",
+        "description": "Analyze complex data to help organizations make better decisions",
+        "salaryRange": "$90,000 - $160,000/year",
+        "experienceLevel": "Mid to Senior",
+        "skills": [
+            "Python",
+            "R",
+            "Machine Learning",
+            "SQL",
+            "Statistics",
+            "Data Visualization"
+        ],
+        "education": "Master's in Data Science, Statistics, or related field",
+        "growth": "31% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 4,
+        "title": "Product Manager",
+        "category": "Business",
+        "description": "Lead product strategy, development, and launch for digital products",
+        "salaryRange": "$100,000 - $200,000/year",
+        "experienceLevel": "Mid to Senior",
+        "skills": [
+            "Product Strategy",
+            "Agile",
+            "Data Analysis",
+            "Communication",
+            "User Research",
+            "Roadmapping"
+        ],
+        "education": "Bachelor's in Business, Engineering, or related field; MBA preferred",
+        "growth": "19% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 5,
+        "title": "DevOps Engineer",
+        "category": "Tech",
+        "description": "Build and maintain infrastructure for software development and deployment",
+        "salaryRange": "$95,000 - $165,000/year",
+        "experienceLevel": "Mid to Senior",
+        "skills": [
+            "Docker",
+            "Kubernetes",
+            "AWS",
+            "CI/CD",
+            "Linux",
+            "Terraform"
+        ],
+        "education": "Bachelor's in Computer Science or related field",
+        "growth": "25% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 6,
+        "title": "Digital Marketing Manager",
+        "category": "Business",
+        "description": "Plan and execute digital marketing campaigns to drive growth",
+        "salaryRange": "$55,000 - $120,000/year",
+        "experienceLevel": "Entry to Senior",
+        "skills": [
+            "SEO",
+            "Content Marketing",
+            "Social Media",
+            "Analytics",
+            "PPC",
+            "Email Marketing"
+        ],
+        "education": "Bachelor's in Marketing, Communications, or related field",
+        "growth": "10% (Faster than average)",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 7,
+        "title": "Cybersecurity Analyst",
+        "category": "Tech",
+        "description": "Protect organizations from cyber threats and security breaches",
+        "salaryRange": "$75,000 - $150,000/year",
+        "experienceLevel": "Entry to Senior",
+        "skills": [
+            "Network Security",
+            "Penetration Testing",
+            "Risk Assessment",
+            "Incident Response",
+            "SIEM"
+        ],
+        "education": "Bachelor's in Computer Science, Cybersecurity, or related field",
+        "growth": "35% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 8,
+        "title": "Healthcare Data Analyst",
+        "category": "Healthcare",
+        "description": "Analyze healthcare data to improve patient outcomes and operations",
+        "salaryRange": "$60,000 - $110,000/year",
+        "experienceLevel": "Entry to Mid",
+        "skills": [
+            "SQL",
+            "Excel",
+            "Healthcare Analytics",
+            "Statistics",
+            "Python",
+            "Tableau"
+        ],
+        "education": "Bachelor's in Healthcare Administration, Statistics, or related field",
+        "growth": "13% (Faster than average)",
+        "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 9,
+        "title": "Full Stack Developer",
+        "category": "Tech",
+        "description": "Build both frontend and backend components of web applications",
+        "salaryRange": "$75,000 - $160,000/year",
+        "experienceLevel": "Mid to Senior",
+        "skills": [
+            "React",
+            "Node.js",
+            "MongoDB",
+            "Express",
+            "TypeScript",
+            "AWS"
+        ],
+        "education": "Bachelor's in Computer Science or related field",
+        "growth": "22% (Much faster than average)",
+        "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop"
+    },
+    {
+        "id": 10,
+        "title": "Business Analyst",
+        "category": "Business",
+        "description": "Bridge the gap between business needs and technical solutions",
+        "salaryRange": "$60,000 - $120,000/year",
+        "experienceLevel": "Entry to Mid",
+        "skills": [
+            "Requirements Analysis",
+            "SQL",
+            "Excel",
+            "Process Mapping",
+            "Stakeholder Management"
+        ],
+        "education": "Bachelor's in Business, IT, or related field",
+        "growth": "14% (Faster than average)",
+        "image": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=300&fit=crop"
+    }
+]

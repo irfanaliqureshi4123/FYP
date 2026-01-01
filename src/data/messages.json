@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "participants": [
+            1,
+            2
+        ],
+        "lastMessage": "That sounds amazing! Let's set up a call next week.",
+        "timestamp": "2024-12-25T11:30:00Z",
+        "unread": true,
+        "messages": [
+            {
+                "id": 1,
+                "senderId": 2,
+                "text": "Hey Sarah! Loved your post about system design. Would love to pick your brain about scaling challenges!",
+                "timestamp": "2024-12-25T09:00:00Z"
+            },
+            {
+                "id": 2,
+                "senderId": 1,
+                "text": "Thanks Alex! Happy to help. What specific challenges are you facing?",
+                "timestamp": "2024-12-25T09:15:00Z"
+            },
+            {
+                "id": 3,
+                "senderId": 2,
+                "text": "We're dealing with database performance issues as our user base grows. Thinking about sharding strategies.",
+                "timestamp": "2024-12-25T09:20:00Z"
+            },
+            {
+                "id": 4,
+                "senderId": 1,
+                "text": "That sounds amazing! Let's set up a call next week.",
+                "timestamp": "2024-12-25T11:30:00Z"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "participants": [
+            1,
+            3
+        ],
+        "lastMessage": "Thanks for the resources! This will really help with my ML project.",
+        "timestamp": "2024-12-24T18:45:00Z",
+        "unread": false,
+        "messages": [
+            {
+                "id": 1,
+                "senderId": 3,
+                "text": "Hi Sarah, I saw your ML recommendation. Do you have any resources for beginners?",
+                "timestamp": "2024-12-24T16:00:00Z"
+            },
+            {
+                "id": 2,
+                "senderId": 1,
+                "text": "Sure! Check out Andrew Ng's course on Coursera and 'Hands-On Machine Learning' book.",
+                "timestamp": "2024-12-24T16:30:00Z"
+            },
+            {
+                "id": 3,
+                "senderId": 3,
+                "text": "Thanks for the resources! This will really help with my ML project.",
+                "timestamp": "2024-12-24T18:45:00Z"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "participants": [
+            1,
+            4
+        ],
+        "lastMessage": "Would love to collaborate on a blog series about career transitions!",
+        "timestamp": "2024-12-23T14:20:00Z",
+        "unread": false,
+        "messages": [
+            {
+                "id": 1,
+                "senderId": 4,
+                "text": "Hey! Your post on career growth really resonated with me. Are you interested in collaborations?",
+                "timestamp": "2024-12-23T12:00:00Z"
+            },
+            {
+                "id": 2,
+                "senderId": 1,
+                "text": "Absolutely! What did you have in mind?",
+                "timestamp": "2024-12-23T13:00:00Z"
+            },
+            {
+                "id": 3,
+                "senderId": 4,
+                "text": "Would love to collaborate on a blog series about career transitions!",
+                "timestamp": "2024-12-23T14:20:00Z"
+            }
+        ]
+    }
+]

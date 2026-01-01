@@ -1,0 +1,54 @@
+[
+  {
+    "id": "university-1",
+    "name": "National Central University",
+    "logo": "",
+    "banner": "",
+    "description": "National Central University is a premier research institution offering advanced degrees and conducting cutting-edge research across multiple disciplines.",
+    "location": "789 Academic Boulevard, Research Park, City 012345",
+    "type": "Public",
+    "contact": {
+      "phone": "+1 (555) 678-9012",
+      "email": "admissions@ncu.edu",
+      "website": "https://ncu.edu"
+    },
+    "foundedYear": 1985,
+    "principalName": "Prof. David Chen",
+    "totalStudents": 8500,
+    "totalTeachers": 450,
+    "verified": true,
+    "followers": 15420,
+    "createdAt": "2024-01-05T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z",
+    "motto": "Knowledge for Global Progress",
+    "accreditation": "NAAC A+ Accredited, UGC Recognized",
+    "colors": ["#1F2937", "#111827"],
+    "departments": ["dept-uni-1-1", "dept-uni-1-2", "dept-uni-1-3", "dept-uni-1-4"]
+  },
+  {
+    "id": "university-2",
+    "name": "International Science and Arts University",
+    "logo": "",
+    "banner": "",
+    "description": "International Science and Arts University combines rigorous academic training with cultural and social development for holistic student growth.",
+    "location": "321 Knowledge Avenue, Science District, City 345678",
+    "type": "Private",
+    "contact": {
+      "phone": "+1 (555) 789-0123",
+      "email": "info@isau.edu",
+      "website": "https://isau.edu"
+    },
+    "foundedYear": 2005,
+    "principalName": "Dr. Elena Rodriguez",
+    "totalStudents": 6200,
+    "totalTeachers": 320,
+    "verified": true,
+    "followers": 10200,
+    "createdAt": "2024-03-20T00:00:00Z",
+    "updatedAt": "2024-12-29T00:00:00Z",
+    "motto": "Bridging Science and Society",
+    "accreditation": "NAAC A Accredited, UGC Recognized",
+    "colors": ["#059669", "#047857"],
+    "departments": ["dept-uni-2-1", "dept-uni-2-2", "dept-uni-2-3"]
+  }
+]
