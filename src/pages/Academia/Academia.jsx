@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { GraduationCap, Award, ArrowLeft, Clock } from 'lucide-react';
+import { GraduationCap, Award, ArrowLeft, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import universityData from '../../data/university.json';
+import departmentsData from '../../data/universityDepartments.json';
 import Badge from '../../components/common/Badge';
 import Button from '../../components/common/Button';
 
@@ -26,9 +27,9 @@ const Academia = () => {
         }
     ];
 
-    const filteredCourses = universityData.filter(course =>
-        course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.department.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredDepartments = departmentsData.filter(dept =>
+        dept.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        dept.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -56,7 +57,7 @@ const Academia = () => {
                         type="search"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search courses..."
+                        placeholder="Search departments..."
                         className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all"
                     />
                 </div>
@@ -101,12 +102,12 @@ const Academia = () => {
                 ))}
             </div>
 
-            {/* Featured University Courses Preview */}
+            {/* Featured University Departments Preview */}
             <div className="bg-white dark:bg-gray-800 rounded-lg xs:rounded-lg sm:rounded-xl md:rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
                 <div className="border-b border-gray-200 dark:border-gray-700 p-3 xs:p-4 sm:p-5 md:p-6 flex flex-col xs:flex-col sm:flex-row sm:items-center justify-between gap-2 xs:gap-3 sm:gap-4">
                     <div className="flex items-center gap-2 xs:gap-3">
                         <Award className="w-4 xs:w-5 h-4 xs:h-5 text-primary-600 flex-shrink-0" />
-                        <h2 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-white truncate">Featured University Courses</h2>
+                        <h2 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-white truncate">Featured University Departments</h2>
                     </div>
                     <Button variant="outline" size="sm" onClick={() => navigate('/university')} className="text-xs xs:text-sm whitespace-nowrap">
                         View All
@@ -114,24 +115,24 @@ const Academia = () => {
                 </div>
                 <div className="p-3 xs:p-4 sm:p-5 md:p-6">
                     <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
-                        {filteredCourses.slice(0, 4).map((course) => (
+                        {filteredDepartments.slice(0, 4).map((dept) => (
                             <div
-                                key={course.id}
+                                key={dept.id}
                                 className="border border-gray-200 dark:border-gray-700 rounded-lg p-3 xs:p-4 hover:shadow-md transition-all hover:border-primary-500 dark:hover:border-primary-500 cursor-pointer"
                                 onClick={() => navigate('/university')}
                             >
                                 <h3 className="font-bold text-sm xs:text-base text-gray-900 dark:text-white mb-2 line-clamp-2">
-                                    {course.title}
+                                    {dept.name}
                                 </h3>
-                                <p className="text-xs xs:text-sm text-gray-600 dark:text-gray-400 mb-1">{course.department}</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-500 mb-3">Instructor: {course.instructor}</p>
+                                <p className="text-xs xs:text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">{dept.description}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-500 mb-3">Head: {dept.hod}</p>
                                 <div className="flex items-center justify-between text-xs xs:text-sm text-gray-600 dark:text-gray-400 gap-2">
                                     <span className="flex items-center gap-1 min-w-0">
-                                        <Clock className="w-3 h-3 flex-shrink-0" />
-                                        <span className="truncate">{course.schedule.split(' ')[0]}</span>
+                                        <Users className="w-3 h-3 flex-shrink-0" />
+                                        <span className="truncate">{dept.memberCount} Members</span>
                                     </span>
                                     <Badge variant="secondary" className="text-xs flex-shrink-0">
-                                        {course.credits} Creds
+                                        {dept.batches.length} Batches
                                     </Badge>
                                 </div>
                             </div>
