@@ -3,7 +3,6 @@ import { useApp } from '../context/AppContext';
 import PostComposer from '../components/posts/PostComposer';
 import PostCard from '../components/posts/PostCard';
 import { Loader } from '../components/common/Loader';
-import schoolPostsData from '../data/schoolPosts.json';
 
 /**
  * Home Page - Main Feed
@@ -18,11 +17,10 @@ const Home = () => {
     const observerTarget = useRef(null);
     const [pageIndex, setPageIndex] = useState(0);
 
-    // Merge and sort all posts (regular posts + school posts)
+    // Merge and sort all posts
     const allPosts = useMemo(() => {
-        const combined = [...posts, ...schoolPostsData];
         // Sort by timestamp (most recent first)
-        return combined.sort((a, b) => {
+        return posts.sort((a, b) => {
             const dateA = new Date(a.timestamp || 0);
             const dateB = new Date(b.timestamp || 0);
             return dateB - dateA;

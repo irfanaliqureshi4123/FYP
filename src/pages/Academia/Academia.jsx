@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, GraduationCap, Award, ArrowLeft, Clock } from 'lucide-react';
+import { GraduationCap, Award, ArrowLeft, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import universityData from '../../data/university.json';
 import Badge from '../../components/common/Badge';
@@ -7,33 +7,13 @@ import Button from '../../components/common/Button';
 
 /**
  * My Academia Page
- * Educational journey through School, College, and University
+ * University degree programs and courses
  */
 const Academia = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
 
     const academiaCategories = [
-        {
-            id: 'school',
-            label: 'My School',
-            icon: BookOpen,
-            path: '/school',
-            description: 'High school classes and courses',
-            color: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600',
-            count: '6 Classes',
-            preview: 'Mathematics, English, Science, and more'
-        },
-        {
-            id: 'college',
-            label: 'My College',
-            icon: GraduationCap,
-            path: '/college',
-            description: 'Undergraduate programs and courses',
-            color: 'bg-purple-50 dark:bg-purple-900/20 text-purple-600',
-            count: '6 Courses',
-            preview: 'Business, Mathematics, Literature, and more'
-        },
         {
             id: 'university',
             label: 'My University',

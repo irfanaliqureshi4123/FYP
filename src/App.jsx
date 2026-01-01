@@ -7,19 +7,11 @@ import MainLayout from './components/layout/MainLayout';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Academia from './pages/Academia/Academia';
-import { School as SchoolList, default as SchoolProfile } from './pages/Academia/school/School';
-import College from './pages/Academia/college/College';
-import CollegeProfile from './pages/Academia/college/CollegeProfile';
-import CollegeGroup from './pages/Academia/college/CollegeGroup';
-import CollegeSemesterGroup from './pages/Academia/college/CollegeSemesterGroup';
-import CollegeCourseSubGroup from './pages/Academia/college/CollegeCourseSubGroup';
 import University from './pages/Academia/university/University';
 import UniversityProfile from './pages/Academia/university/UniversityProfile';
 import UniversityGroup from './pages/Academia/university/UniversityGroup';
 import UniversitySemesterGroup from './pages/Academia/university/UniversitySemesterGroup';
 import UniversityCourseSubGroup from './pages/Academia/university/UniversityCourseSubGroup';
-import SchoolGroup from './pages/Academia/school/SchoolGroup';
-import ClassSubGroup from './pages/Academia/school/ClassSubGroup';
 import Careers from './pages/Careers';
 import Mentors from './pages/mentors/Mentors';
 import Profile from './pages/user profiles/Profile';
@@ -46,16 +38,6 @@ function App() {
                 <Route path="search" element={<Search />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="academia" element={<Academia />} />
-                <Route path="school" element={<SchoolList />} />
-                <Route path="school-profile/:schoolId" element={<SchoolProfile />} />
-                <Route path="school-group/:groupId" element={<SchoolGroup />} />
-                <Route path="class/:classId" element={<ClassSubGroup />} />
-                <Route path="college" element={<College />} />
-                <Route path="college-profile/:collegeId" element={<CollegeProfile />} />
-                <Route path="college-group/:collegeId" element={<CollegeGroup />} />
-                <Route path="college-group/:collegeId/:departmentId" element={<CollegeGroup />} />
-                <Route path="college-semester/:collegeId/:departmentId/:batchId/:semesterId" element={<CollegeSemesterGroup />} />
-                <Route path="college-course/:collegeId/:departmentId/:classId" element={<CollegeCourseSubGroup />} />
                 <Route path="university" element={<University />} />
                 <Route path="university-profile/:universityId" element={<UniversityProfile />} />
                 <Route path="university-group/:universityId" element={<UniversityGroup />} />
