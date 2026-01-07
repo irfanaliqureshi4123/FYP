@@ -58,9 +58,9 @@ const University = () => {
                 <div className="flex items-start sm:items-center gap-3 xs:gap-4 sm:gap-6 mb-3 xs:mb-4 sm:mb-6 justify-between">
                     <div className="flex items-start sm:items-center gap-2 xs:gap-3 sm:gap-4 flex-1">
                         <button
-                            onClick={() => navigate('/academia')}
+                            onClick={() => navigate('/explore')}
                             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
-                            aria-label="Go back to Academia"
+                            aria-label="Go back to Explore"
                         >
                             <ArrowLeft className="w-4 xs:w-5 h-4 xs:h-5 text-gray-600 dark:text-gray-400" />
                         </button>

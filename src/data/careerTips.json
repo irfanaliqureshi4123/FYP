@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "title": "Build a Strong Portfolio",
+        "tip": "Create a portfolio showcasing your best work. Employers want to see what you can do, not just what you claim you can do. Include projects, code samples, and case studies.",
+        "category": "Career Building",
+        "icon": "🎯"
+    },
+    {
+        "id": 2,
+        "title": "Network Actively",
+        "tip": "Attend industry events, conferences, and meetups. Building relationships with professionals in your field can lead to opportunities and valuable mentorship.",
+        "category": "Networking",
+        "icon": "🤝"
+    },
+    {
+        "id": 3,
+        "title": "Learn Continuously",
+        "tip": "Technology and business evolve rapidly. Invest time in learning new skills, tools, and frameworks. Online courses, certifications, and self-study are valuable investments.",
+        "category": "Learning",
+        "icon": "📚"
+    },
+    {
+        "id": 4,
+        "title": "Master the Interview",
+        "tip": "Prepare thoroughly for interviews. Practice answering common questions, research the company, and prepare thoughtful questions. First impressions matter.",
+        "category": "Job Search",
+        "icon": "💼"
+    },
+    {
+        "id": 5,
+        "title": "Write a Compelling Resume",
+        "tip": "Use action verbs, quantifiable achievements, and relevant keywords. Tailor your resume for each position. Keep it concise and easy to read.",
+        "category": "Job Search",
+        "icon": "📄"
+    },
+    {
+        "id": 6,
+        "title": "Seek Mentorship",
+        "tip": "Find experienced mentors in your field. They can provide guidance, feedback, and help you avoid common pitfalls. Don't be afraid to ask for help.",
+        "category": "Career Growth",
+        "icon": "👨‍🏫"
+    },
+    {
+        "id": 7,
+        "title": "Specialize in Your Field",
+        "tip": "Become an expert in your niche. Deep expertise in one area often leads to better opportunities and higher compensation than being average at many things.",
+        "category": "Specialization",
+        "icon": "🎓"
+    },
+    {
+        "id": 8,
+        "title": "Develop Soft Skills",
+        "tip": "Communication, teamwork, and problem-solving are crucial. Technical skills get you interviews, but soft skills get you promotions.",
+        "category": "Skills",
+        "icon": "💬"
+    },
+    {
+        "id": 9,
+        "title": "Stay Updated with Industry Trends",
+        "tip": "Follow industry leaders, read tech blogs, and subscribe to newsletters. Knowing about emerging technologies and trends keeps you competitive.",
+        "category": "Industry",
+        "icon": "📰"
+    },
+    {
+        "id": 10,
+        "title": "Practice Side Projects",
+        "tip": "Work on personal projects during your free time. They help you learn new technologies, build your portfolio, and demonstrate your passion for your field.",
+        "category": "Learning",
+        "icon": "🚀"
+    },
+    {
+        "id": 11,
+        "title": "Contribute to Open Source",
+        "tip": "Open source contributions demonstrate your skills, help you learn from experienced developers, and increase your visibility in the tech community.",
+        "category": "Community",
+        "icon": "💻"
+    },
+    {
+        "id": 12,
+        "title": "Negotiate Your Salary",
+        "tip": "Don't accept the first offer. Research market rates, understand your value, and negotiate confidently. Your initial salary sets the tone for future raises.",
+        "category": "Career Growth",
+        "icon": "💰"
+    },
+    {
+        "id": 13,
+        "title": "Document Your Achievements",
+        "tip": "Keep track of your accomplishments, metrics, and impact. This helps during performance reviews, salary negotiations, and when applying for new positions.",
+        "category": "Career Building",
+        "icon": "📊"
+    },
+    {
+        "id": 14,
+        "title": "Build Your Personal Brand",
+        "tip": "Create a personal website, blog, or social media presence. Share your knowledge and insights. A strong personal brand opens doors to opportunities.",
+        "category": "Networking",
+        "icon": "⭐"
+    },
+    {
+        "id": 15,
+        "title": "Ask for Feedback",
+        "tip": "Regularly ask for constructive feedback from colleagues and managers. Use it to improve your skills and performance. Growth requires honest feedback.",
+        "category": "Career Growth",
+        "icon": "💡"
+    },
+    {
+        "id": 16,
+        "title": "Stay Organized and Productive",
+        "tip": "Use tools like Notion, Asana, or Trello to organize your work. Better organization leads to better results and less stress.",
+        "category": "Productivity",
+        "icon": "✅"
+    },
+    {
+        "id": 17,
+        "title": "Work-Life Balance Matters",
+        "tip": "Avoid burnout by maintaining a healthy work-life balance. Your mental and physical health directly impact your career performance and satisfaction.",
+        "category": "Wellness",
+        "icon": "⚖️"
+    },
+    {
+        "id": 18,
+        "title": "Learn Business Fundamentals",
+        "tip": "Understanding business, finance, and marketing will help you communicate better with stakeholders and make more informed career decisions.",
+        "category": "Business",
+        "icon": "📈"
+    },
+    {
+        "id": 19,
+        "title": "Test Your Ideas",
+        "tip": "Don't wait for perfection. Build MVPs (Minimum Viable Products), test your ideas, and iterate based on feedback. Speed and learning matter more.",
+        "category": "Innovation",
+        "icon": "🧪"
+    },
+    {
+        "id": 20,
+        "title": "Give Back to Your Community",
+        "tip": "Mentoring, speaking at events, or writing tutorials helps others and strengthens your own understanding. Giving back builds your reputation and fulfillment.",
+        "category": "Community",
+        "icon": "🙌"
+    }
+]

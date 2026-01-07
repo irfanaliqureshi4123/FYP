@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useApp } from '../context/AppContext';
 import PostComposer from '../components/posts/PostComposer';
 import PostCard from '../components/posts/PostCard';
+import Pagination from '../components/common/Pagination';
 import { Loader } from '../components/common/Loader';
 
 /**
@@ -12,10 +13,9 @@ const Home = () => {
     const { posts } = useApp();
     const [displayedPosts, setDisplayedPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [hasMore, setHasMore] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(5);
     const observerTarget = useRef(null);
-    const [pageIndex, setPageIndex] = useState(0);
 
     // Merge and sort all posts
     const allPosts = useMemo(() => {
@@ -27,54 +27,25 @@ const Home = () => {
         });
     }, [posts]);
 
-    // Initialize with first batch of posts
+    // Calculate total pages
+    const totalPages = Math.ceil(allPosts.length / postsPerPage);
+
+    // Update displayed posts when page changes
     useEffect(() => {
         setIsLoading(true);
         // Simulate network delay
         setTimeout(() => {
-            setDisplayedPosts(allPosts.slice(0, postsPerPage));
-            setPageIndex(1);
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            setDisplayedPosts(allPosts.slice(startIndex, endIndex));
             setIsLoading(false);
         }, 300);
-    }, [allPosts, postsPerPage]);
+    }, [currentPage, allPosts, postsPerPage]);
 
-    // Load more posts when reaching bottom
-    const loadMorePosts = useCallback(() => {
-        const nextIndex = pageIndex * postsPerPage;
-        if (nextIndex < allPosts.length) {
-            setTimeout(() => {
-                setDisplayedPosts(prev => [
-                    ...prev,
-                    ...allPosts.slice(nextIndex, nextIndex + postsPerPage)
-                ]);
-                setPageIndex(prev => prev + 1);
-            }, 500);
-        } else {
-            setHasMore(false);
-        }
-    }, [pageIndex, allPosts, postsPerPage]);
-
-    // Intersection Observer for infinite scroll
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            entries => {
-                if (entries[0].isIntersecting && hasMore && !isLoading) {
-                    loadMorePosts();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (observerTarget.current) {
-            observer.observe(observerTarget.current);
-        }
-
-        return () => {
-            if (observerTarget.current) {
-                observer.unobserve(observerTarget.current);
-            }
-        };
-    }, [loadMorePosts, hasMore, isLoading]);
+    // Handle page change
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
     if (isLoading && displayedPosts.length === 0) {
         return (
@@ -112,25 +83,17 @@ const Home = () => {
                 </div>
             )}
 
-            {/* Load More / Loading Indicator */}
-            <div ref={observerTarget} className="py-8">
-                {hasMore && displayedPosts.length > 0 && (
-                    <div className="flex flex-col items-center gap-4">
-                        <Loader size="md" />
-                        <p className="text-gray-500 dark:text-gray-400 text-sm">
-                            Loading more posts...
-                        </p>
-                    </div>
-                )}
-
-                {!hasMore && displayedPosts.length > 0 && (
-                    <div className="text-center py-4">
-                        <p className="text-gray-500 dark:text-gray-400">
-                            ✓ You've reached the end of the feed
-                        </p>
-                    </div>
-                )}
-            </div>
+            {/* Load More / Pagination */}
+            {displayedPosts.length > 0 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    totalItems={allPosts.length}
+                    itemsPerPage={postsPerPage}
+                    onPageChange={handlePageChange}
+                    isLoading={isLoading}
+                />
+            )}
         </div>
     );
 };

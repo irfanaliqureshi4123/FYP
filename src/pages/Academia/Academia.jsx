@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraduationCap, Award, ArrowLeft, Users } from 'lucide-react';
+import { GraduationCap, Award, ArrowLeft, Users, Clock, BookOpen, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import universityData from '../../data/universities.json';
 import Badge from '../../components/common/Badge';
@@ -22,6 +22,27 @@ const Academia = () => {
             color: 'bg-green-50 dark:bg-green-900/20 text-green-600',
             count: universityData.length + ' Courses',
             preview: 'Computer Science, Mathematics, Business'
+        }
+    ];
+
+    const enrolledCourses = [
+        {
+            id: 1,
+            title: 'Introduction to Computer Science',
+            department: 'Computer Science',
+            credits: 3,
+            instructor: 'Dr. Sarah Johnson',
+            schedule: 'Mon/Wed 10:00-11:30 AM',
+            status: 'In Progress'
+        },
+        {
+            id: 2,
+            title: 'Data Structures and Algorithms',
+            department: 'Computer Science',
+            credits: 4,
+            instructor: 'Prof. Michael Chen',
+            schedule: 'Tue/Thu 2:00-3:30 PM',
+            status: 'In Progress'
         }
     ];
 
@@ -116,6 +137,61 @@ const Academia = () => {
                                     <Badge variant="secondary" className="text-xs flex-shrink-0">
                                         Est. {uni.foundedYear}
                                     </Badge>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Enrolled Courses */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg xs:rounded-lg sm:rounded-xl md:rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+                <div className="border-b border-gray-200 dark:border-gray-700 p-3 xs:p-4 sm:p-5 md:p-6 flex flex-col xs:flex-col sm:flex-row sm:items-center justify-between gap-2 xs:gap-3 sm:gap-4">
+                    <div className="flex items-center gap-2 xs:gap-3">
+                        <BookOpen className="w-4 xs:w-5 h-4 xs:h-5 text-indigo-600 flex-shrink-0" />
+                        <h2 className="text-xs xs:text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-white truncate">My Courses</h2>
+                    </div>
+                    <Badge variant="secondary" className="text-xs">
+                        {enrolledCourses.length} Enrolled
+                    </Badge>
+                </div>
+                <div className="p-3 xs:p-4 sm:p-5 md:p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
+                        {enrolledCourses.map((course) => (
+                            <div
+                                key={course.id}
+                                className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-all hover:border-indigo-500 dark:hover:border-indigo-500 cursor-pointer group"
+                            >
+                                <div className="flex items-start justify-between gap-2 mb-3">
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white mb-1 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                            {course.title}
+                                        </h3>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{course.department}</p>
+                                    </div>
+                                    <Badge variant="primary" className="text-xs flex-shrink-0">
+                                        {course.credits} Credits
+                                    </Badge>
+                                </div>
+
+                                <div className="space-y-2 text-xs sm:text-sm">
+                                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                        <User className="w-4 h-4 flex-shrink-0" />
+                                        <span className="line-clamp-1">{course.instructor}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                                        <Clock className="w-4 h-4 flex-shrink-0" />
+                                        <span className="line-clamp-1">{course.schedule}</span>
+                                    </div>
+                                </div>
+
+                                <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                                    <Badge variant="secondary" className="text-xs">
+                                        {course.status}
+                                    </Badge>
+                                    <button className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+                                        View Details →
+                                    </button>
                                 </div>
                             </div>
                         ))}

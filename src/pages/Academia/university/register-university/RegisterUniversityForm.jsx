@@ -304,58 +304,6 @@ const RegisterUniversityForm = ({
                 </div>
             </div>
 
-            {/* University Colors */}
-            <div className="bg-gray-50 dark:bg-gray-700/30 rounded-lg p-4 sm:p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">University Colors</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Primary Color */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Primary Color
-                        </label>
-                        <div className="flex gap-3">
-                            <input
-                                type="color"
-                                name="primaryColor"
-                                value={formData.primaryColor}
-                                onChange={handleColorInputChange}
-                                className="w-16 h-10 rounded cursor-pointer"
-                            />
-                            <input
-                                type="text"
-                                value={formData.primaryColor}
-                                onChange={handleColorInputChange}
-                                name="primaryColor"
-                                className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Secondary Color */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Secondary Color
-                        </label>
-                        <div className="flex gap-3">
-                            <input
-                                type="color"
-                                name="secondaryColor"
-                                value={formData.secondaryColor}
-                                onChange={handleColorInputChange}
-                                className="w-16 h-10 rounded cursor-pointer"
-                            />
-                            <input
-                                type="text"
-                                value={formData.secondaryColor}
-                                onChange={handleColorInputChange}
-                                name="secondaryColor"
-                                className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             {/* Form Actions */}
             <div className="flex gap-3">
                 <Button

@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import RightSidebar from './RightSidebar';
+import CareerTipOfTheDay from '../widgets/CareerTipOfTheDay';
 
 /**
  * Main Layout Component
@@ -11,9 +12,26 @@ import RightSidebar from './RightSidebar';
  */
 const MainLayout = () => {
     const sidebarRef = useRef();
+    const [showCareerTip, setShowCareerTip] = useState(false);
+
+    // Show career tip on mount for small devices
+    useEffect(() => {
+        const hasSeenTip = sessionStorage.getItem('careerTipShownToday');
+        if (!hasSeenTip) {
+            // Small delay to let page load before showing modal
+            const timer = setTimeout(() => {
+                setShowCareerTip(true);
+                sessionStorage.setItem('careerTipShownToday', 'true');
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-theme">
+            {/* Career Tip of the Day Modal */}
+            <CareerTipOfTheDay isOpen={showCareerTip} onClose={() => setShowCareerTip(false)} />
+
             <div className="flex">
                 {/* Left Sidebar - Hidden on mobile, visible on lg+ */}
                 <Sidebar ref={sidebarRef} />

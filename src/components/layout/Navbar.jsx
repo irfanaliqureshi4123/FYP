@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Bell, Moon, Sun, Settings, LogOut, User, Menu } from 'lucide-react';
+import { Search, Bell, Moon, Sun, Settings, LogOut, User, Menu, Compass } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
@@ -63,6 +63,15 @@ const Navbar = ({ sidebarRef }) => {
                         >
                             <Menu className="w-5 h-5" />
                         </button>
+
+                        {/* Mobile Roadmap Button - Visible only on mobile */}
+                        <Link
+                            to="/roadmap"
+                            className="p-2 lg:hidden text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                            title="Learning Roadmap"
+                        >
+                            <Compass className="w-5 h-5" />
+                        </Link>
 
                         {/* Theme Toggle */}
                         <button

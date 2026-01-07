@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { Loader } from 'lucide-react';
+import { Loader, ArrowLeft } from 'lucide-react';
 import Button from '../../../../components/common/Button';
 import RegisterUniversityForm from './RegisterUniversityForm';
+import UniversityGroup from '../UniversityGroup';
 import { getInitialFormState, validateForm } from './validation';
 
 /**
@@ -13,6 +14,7 @@ const RegisterUniversityTab = ({ onRegister }) => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitMessage, setSubmitMessage] = useState('');
+    const [registeredUniversity, setRegisteredUniversity] = useState(null);
 
     const handleInputChange = useCallback((e) => {
         const { name, value } = e.target;
@@ -124,10 +126,11 @@ const RegisterUniversityTab = ({ onRegister }) => {
                 onRegister(newUniversity);
             }
 
+            setRegisteredUniversity(newUniversity);
             setSubmitMessage('University registered successfully! ✓');
             
             setTimeout(() => {
-                handleReset();
+                // Don't reset, keep showing the university group
             }, 1500);
 
         } catch (error) {
@@ -142,13 +145,47 @@ const RegisterUniversityTab = ({ onRegister }) => {
         setFormData(getInitialFormState());
         setErrors({});
         setSubmitMessage('');
+        setRegisteredUniversity(null);
     };
+
+    // If university is registered, show success message and university group
+    if (registeredUniversity) {
+        return (
+            <div className="space-y-4 sm:space-y-6">
+                {/* Back Button */}
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={handleReset}
+                        className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-medium transition-colors p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg -ml-2"
+                    >
+                        <ArrowLeft className="w-5 h-5" />
+                        Back to Registration
+                    </button>
+                </div>
+
+                {/* Success Message */}
+                <div className="p-4 bg-green-100 dark:bg-green-900/20 border border-green-300 dark:border-green-800 rounded-lg">
+                    <p className="text-green-700 dark:text-green-400 font-medium">
+                        ✓ {registeredUniversity.name} has been successfully registered!
+                    </p>
+                </div>
+
+                {/* University Group View */}
+                <UniversityGroup 
+                    universityId={registeredUniversity.id}
+                    university={registeredUniversity}
+                    onBack={handleReset}
+                    isInRegistration={true}
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="p-4 sm:p-6 md:p-8">
             <div className="max-w-4xl mx-auto">
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Register Your University</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">Fill in the details below to register your university on our platform</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">Fill in the details below to register your university on our platform and create your university group</p>
 
                 <RegisterUniversityForm
                     formData={formData}

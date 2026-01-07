@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, CheckCircle, Copy, X, CornerDownRight, Flag, MapPin, Building2 } from 'lucide-react';
 import { Twitter, Linkedin, Facebook, MessageCircle as WhatsApp, Mail } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
@@ -11,24 +11,53 @@ import Badge from '../common/Badge';
 import Toast from '../common/Toast';
 
 /**
- * Highlight search query in text
+ * Highlight search query and hashtags in text
  */
 const HighlightedText = ({ text, query }) => {
-    if (!query || !query.trim()) return <span>{text}</span>;
+    const navigate = useNavigate();
 
-    const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
+    // Split text by whitespace and punctuation, preserving spaces
+    const tokens = text.split(/(\s+)/);
 
     return (
         <span>
-            {parts.map((part, i) =>
-                part.toLowerCase() === query.toLowerCase() ? (
-                    <mark key={i} className="bg-yellow-300 dark:bg-yellow-600 text-gray-900 dark:text-white font-semibold rounded px-1">
-                        {part}
-                    </mark>
-                ) : (
-                    <span key={i}>{part}</span>
-                )
-            )}
+            {tokens.map((token, i) => {
+                // Check if token is a hashtag
+                if (token.startsWith('#') && token.length > 1) {
+                    const hashtag = token.substring(1); // Remove the # for search
+                    return (
+                        <button
+                            key={i}
+                            onClick={() => navigate(`/search?q=${encodeURIComponent(token)}`)}
+                            className="text-primary-600 dark:text-primary-400 hover:underline font-semibold cursor-pointer hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+                            title={`Search for ${token}`}
+                        >
+                            {token}
+                        </button>
+                    );
+                }
+
+                // Highlight search query in text
+                if (!query || !query.trim()) {
+                    return <span key={i}>{token}</span>;
+                }
+
+                const parts = token.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'));
+
+                return (
+                    <span key={i}>
+                        {parts.map((part, j) =>
+                            part.toLowerCase() === query.toLowerCase() ? (
+                                <mark key={j} className="bg-yellow-300 dark:bg-yellow-600 text-gray-900 dark:text-white font-semibold rounded px-1">
+                                    {part}
+                                </mark>
+                            ) : (
+                                <span key={j}>{part}</span>
+                            )
+                        )}
+                    </span>
+                );
+            })}
         </span>
     );
 };
@@ -398,13 +427,14 @@ const PostCard = ({ post, searchQuery }) => {
                 {post.hashtags && (
                     <div className="flex flex-wrap gap-2 mt-3">
                         {post.hashtags.map((tag, index) => (
-                            <Badge
+                            <Link
                                 key={index}
-                                variant={searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase()) ? 'primary' : 'primary'}
-                                size="sm"
+                                to={`/search?q=%23${encodeURIComponent(tag)}`}
+                                className="inline-flex items-center px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded-full text-sm font-semibold hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
+                                title={`View posts with #${tag}`}
                             >
                                 #{tag}
-                            </Badge>
+                            </Link>
                         ))}
                     </div>
                 )}

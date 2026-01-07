@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Link as LinkIcon, Calendar, Settings as SettingsIcon, MessageCircle, CheckCircle } from 'lucide-react';
 import usersData from '../../data/users.json';
 import postsData from '../../data/posts.json';
@@ -16,6 +16,7 @@ import PostCard from '../../components/posts/PostCard';
  */
 const Profile = () => {
     const { username } = useParams();
+    const navigate = useNavigate();
     const { currentUser } = useAuth();
     const { followingUsers, toggleFollow } = useApp();
     const [activeTab, setActiveTab] = useState('posts');
@@ -30,6 +31,18 @@ const Profile = () => {
         { id: 'about', label: 'About' },
         { id: 'achievements', label: 'Achievements', count: user?.achievements?.length || 0 },
     ];
+
+    // Calculate profile completion
+    const profileCompletion = Math.round(
+        ((user?.name ? 1 : 0) +
+            (user?.title ? 1 : 0) +
+            (user?.bio ? 1 : 0) +
+            (user?.location ? 1 : 0) +
+            (user?.website ? 1 : 0) +
+            (user?.skills?.length > 0 ? 1 : 0) +
+            (user?.achievements?.length > 0 ? 1 : 0) +
+            (user?.careerGoals?.length > 0 ? 1 : 0)) / 8 * 100
+    );
 
     return (
         <div className="space-y-6 -mt-6">
@@ -62,15 +75,27 @@ const Profile = () => {
                                     {user?.verified && (
                                         <CheckCircle className="w-6 h-6 text-primary-600 fill-current" />
                                     )}
+                                    {profileCompletion === 100 && (
+                                        <Badge variant="primary" className="text-xs">✓ Complete Profile</Badge>
+                                    )}
                                 </div>
                                 <p className="text-gray-600 dark:text-gray-400">@{user?.username}</p>
                                 <p className="text-gray-900 dark:text-white font-medium mt-1">{user?.title}</p>
+                                {isOwnProfile && profileCompletion < 100 && (
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                        Profile {profileCompletion}% complete
+                                    </p>
+                                )}
                             </div>
                         </div>
 
                         <div className="flex gap-2">
                             {isOwnProfile ? (
-                                <Button variant="outline" icon={<SettingsIcon className="w-4 h-4" />}>
+                                <Button 
+                                    variant="outline" 
+                                    icon={<SettingsIcon className="w-4 h-4" />}
+                                    onClick={() => navigate(`/profile/${user?.username}/edit`)}
+                                >
                                     Edit Profile
                                 </Button>
                             ) : (
@@ -122,7 +147,7 @@ const Profile = () => {
                     </div>
 
                     {/* Stats */}
-                    <div className="flex gap-6 mt-4">
+                    <div className="flex flex-wrap gap-6 mt-4">
                         <div>
                             <span className="font-bold text-gray-900 dark:text-white">
                                 {user?.posts?.toLocaleString() || 0}
@@ -140,6 +165,12 @@ const Profile = () => {
                                 {user?.following?.toLocaleString() || 0}
                             </span>
                             <span className="text-gray-600 dark:text-gray-400 ml-1">Following</span>
+                        </div>
+                        <div>
+                            <span className="font-bold text-gray-900 dark:text-white">
+                                {Math.round(((user?.skills?.length || 0) + (user?.achievements?.length || 0)) * 15)}
+                            </span>
+                            <span className="text-gray-600 dark:text-gray-400 ml-1">Engagement</span>
                         </div>
                     </div>
 

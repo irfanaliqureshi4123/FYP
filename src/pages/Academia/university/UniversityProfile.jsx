@@ -1,10 +1,11 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { MapPin, Mail, Globe, Users, BookOpen, Calendar, Award, ArrowLeft, Share2, Bell, Building2, Search, Upload, X, Image as ImageIcon, Copy, Facebook, Linkedin, Twitter, MessageCircle, Zap, GraduationCap } from 'lucide-react';
+import { MapPin, Mail, Globe, Users, BookOpen, Calendar, Award, ArrowLeft, Share2, Bell, Building2, Search, Upload, X, Image as ImageIcon, Copy, Facebook, Linkedin, Twitter, MessageCircle, Zap, GraduationCap, Edit, Plus, Trash2, Save } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Badge from '../../../components/common/Badge';
 import Button from '../../../components/common/Button';
 import PostComposer from '../../../components/posts/PostComposer';
 import PostCard from '../../../components/posts/PostCard';
+import Pagination from '../../../components/common/Pagination';
 import { Loader } from '../../../components/common/Loader';
 import universitiesData from '../../../data/universities.json';
 import universityPostsData from '../../../data/universityPosts.json';
@@ -17,12 +18,29 @@ import universityDepartmentsData from '../../../data/universityDepartments.json'
 const UniversityProfile = () => {
     const navigate = useNavigate();
     const { universityId } = useParams();
+    
+    // Find university data FIRST (needed for initialization of other states)
+    const universityFromData = universitiesData.find(u => u.id === universityId) || universitiesData[0];
+    
+    // Create mutable state for university data
+    const [university, setUniversityData] = useState({
+        ...universityFromData,
+        description: universityFromData.description || 'Premier institution dedicated to excellence in education and research.',
+        motto: universityFromData.motto || 'Knowledge for a Better Tomorrow',
+        accreditation: universityFromData.accreditation || 'ISO Certified',
+        location: universityFromData.location || 'Capital City',
+        website: universityFromData.website || 'www.university.edu',
+        foundedYear: universityFromData.foundedYear || '1985',
+        viceCancellor: universityFromData.viceCancellor || 'Prof. David Chen',
+        totalStudents: universityFromData.totalStudents || '8500',
+        totalFaculty: universityFromData.totalFaculty || '450'
+    });
+
     const [displayedPosts, setDisplayedPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [hasMore, setHasMore] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(5);
     const observerTarget = useRef(null);
-    const [pageIndex, setPageIndex] = useState(0);
     const [activeTab, setActiveTab] = useState('feed');
     const [isFollowing, setIsFollowing] = useState(false);
     const [followerCount, setFollowerCount] = useState(0);
@@ -48,8 +66,53 @@ const UniversityProfile = () => {
     const galleryInputRef = useRef(null);
     const profileInputRef = useRef(null);
 
-    // Find university data
-    const university = universitiesData.find(u => u.id === universityId) || universitiesData[0];
+    // Edit mode states
+    const [isEditingAbout, setIsEditingAbout] = useState(false);
+    const [editAboutData, setEditAboutData] = useState({
+        description: university.description,
+        motto: university.motto,
+        accreditation: university.accreditation,
+        location: university.location,
+        website: university.website,
+        foundedYear: university.foundedYear || '1985',
+        viceCancellor: university.viceCancellor || 'Prof. David Chen',
+        totalStudents: university.totalStudents || '8500',
+        totalFaculty: university.totalFaculty || '450'
+    });
+
+    const [faculty, setFaculty] = useState([
+        { id: 1, name: 'Prof. Dr. Michael Harrison', role: 'Vice-Chancellor', avatar: 'M', department: 'Administration', email: 'michael.harrison@university.edu', experience: '20 years', qualifications: 'Ph.D Physics, D.Sc' },
+        { id: 2, name: 'Dr. Elizabeth Taylor', role: 'Registrar', avatar: 'E', department: 'Administration', email: 'elizabeth.taylor@university.edu', experience: '17 years', qualifications: 'Ph.D Management' },
+        { id: 3, name: 'Prof. Dr. Alexander Kumar', role: 'Dean - Engineering', avatar: 'A', department: 'Engineering', email: 'alexander.kumar@university.edu', experience: '19 years', qualifications: 'Ph.D Mechanical Engineering' },
+        { id: 4, name: 'Dr. Victoria Chen', role: 'Dean - Science', avatar: 'V', department: 'Science', email: 'victoria.chen@university.edu', experience: '16 years', qualifications: 'Ph.D Chemistry' },
+        { id: 5, name: 'Prof. Dr. William Johnson', role: 'Dean - Management', avatar: 'W', department: 'Management', email: 'william.johnson@university.edu', experience: '15 years', qualifications: 'Ph.D Business Administration' },
+        { id: 6, name: 'Dr. Sophia Martinez', role: 'Librarian', avatar: 'S', department: 'Library', email: 'sophia.martinez@university.edu', experience: '12 years', qualifications: 'Ph.D Information Science' },
+        { id: 7, name: 'Prof. Dr. James Wilson', role: 'Research Director', avatar: 'J', department: 'Research', email: 'james.wilson@university.edu', experience: '18 years', qualifications: 'Ph.D Physics' },
+        { id: 8, name: 'Dr. Angela Garcia', role: 'International Relations', avatar: 'A', department: 'Relations', email: 'angela.garcia@university.edu', experience: '11 years', qualifications: 'Ph.D Diplomacy' }
+    ]);
+
+    const [events, setEvents] = useState([
+        { id: 1, title: 'Annual Convocation 2025', date: '2025-02-28', type: 'Academic', location: 'Grand Auditorium' },
+        { id: 2, title: 'International Research Symposium', date: '2025-03-15', type: 'Research', location: 'Convention Center' },
+        { id: 3, title: 'Doctoral Thesis Defense Week', date: '2025-04-01', type: 'Academic', location: 'Multiple Venues' },
+        { id: 4, title: 'Global Summit on Innovation', date: '2025-04-20', type: 'Conference', location: 'Main Campus' },
+        { id: 5, title: 'Post-Doctoral Fellowship Program', date: '2025-05-10', type: 'Research', location: 'Research Park' }
+    ]);
+
+    const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
+    const [editingFaculty, setEditingFaculty] = useState(null);
+    const [editFacultyForm, setEditFacultyForm] = useState({});
+
+    const [showEditEventModal, setShowEditEventModal] = useState(false);
+    const [editingEvent, setEditingEvent] = useState(null);
+    const [editEventForm, setEditEventForm] = useState({});
+
+    const [showGalleryRenameModal, setShowGalleryRenameModal] = useState(false);
+    const [renamingImageId, setRenamingImageId] = useState(null);
+    const [newImageName, setNewImageName] = useState('');
+
+    const [editToast, setEditToast] = useState('');
+    const [registeredEvents, setRegisteredEvents] = useState([]);
 
     // Filter posts for this university
     const universityPosts = React.useMemo(
@@ -61,49 +124,20 @@ const UniversityProfile = () => {
     useEffect(() => {
         setIsLoading(true);
         setTimeout(() => {
-            setDisplayedPosts(universityPosts.slice(0, postsPerPage));
-            setPageIndex(1);
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            setDisplayedPosts(universityPosts.slice(startIndex, endIndex));
             setIsLoading(false);
         }, 300);
-    }, [universityPosts, postsPerPage]);
+    }, [currentPage, universityPosts, postsPerPage]);
 
-    // Load more posts
-    const loadMorePosts = useCallback(() => {
-        const nextIndex = pageIndex * postsPerPage;
-        if (nextIndex < universityPosts.length) {
-            setTimeout(() => {
-                setDisplayedPosts(prev => [
-                    ...prev,
-                    ...universityPosts.slice(nextIndex, nextIndex + postsPerPage)
-                ]);
-                setPageIndex(prev => prev + 1);
-            }, 500);
-        } else {
-            setHasMore(false);
-        }
-    }, [pageIndex, universityPosts, postsPerPage]);
+    // Handle page change
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
 
-    // Intersection Observer for infinite scroll
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            entries => {
-                if (entries[0].isIntersecting && hasMore && !isLoading) {
-                    loadMorePosts();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (observerTarget.current) {
-            observer.observe(observerTarget.current);
-        }
-
-        return () => {
-            if (observerTarget.current) {
-                observer.unobserve(observerTarget.current);
-            }
-        };
-    }, [loadMorePosts, hasMore, isLoading]);
+    // Calculate total pages
+    const totalPages = Math.ceil(universityPosts.length / postsPerPage);
 
     // Banner upload handlers
     const handleBannerChange = (e) => {
@@ -228,25 +262,157 @@ const UniversityProfile = () => {
         }
     };
 
-    // Faculty data for university
-    const faculty = [
-        { id: 1, name: 'Prof. Dr. Michael Harrison', role: 'Vice-Chancellor', avatar: 'M', department: 'Administration', email: 'michael.harrison@university.edu', experience: '20 years', qualifications: 'Ph.D Physics, D.Sc' },
-        { id: 2, name: 'Dr. Elizabeth Taylor', role: 'Registrar', avatar: 'E', department: 'Administration', email: 'elizabeth.taylor@university.edu', experience: '17 years', qualifications: 'Ph.D Management' },
-        { id: 3, name: 'Prof. Dr. Alexander Kumar', role: 'Dean - Engineering', avatar: 'A', department: 'Engineering', email: 'alexander.kumar@university.edu', experience: '19 years', qualifications: 'Ph.D Mechanical Engineering' },
-        { id: 4, name: 'Dr. Victoria Chen', role: 'Dean - Science', avatar: 'V', department: 'Science', email: 'victoria.chen@university.edu', experience: '16 years', qualifications: 'Ph.D Chemistry' },
-        { id: 5, name: 'Prof. Dr. William Johnson', role: 'Dean - Management', avatar: 'W', department: 'Management', email: 'william.johnson@university.edu', experience: '15 years', qualifications: 'Ph.D Business Administration' },
-        { id: 6, name: 'Dr. Sophia Martinez', role: 'Librarian', avatar: 'S', department: 'Library', email: 'sophia.martinez@university.edu', experience: '12 years', qualifications: 'Ph.D Information Science' },
-        { id: 7, name: 'Prof. Dr. James Wilson', role: 'Research Director', avatar: 'J', department: 'Research', email: 'james.wilson@university.edu', experience: '18 years', qualifications: 'Ph.D Physics' },
-        { id: 8, name: 'Dr. Angela Garcia', role: 'International Relations', avatar: 'A', department: 'Relations', email: 'angela.garcia@university.edu', experience: '11 years', qualifications: 'Ph.D Diplomacy' }
-    ];
+    // Edit handlers for About tab
+    const handleEditAbout = () => {
+        setEditAboutData({
+            description: university.description,
+            motto: university.motto,
+            accreditation: university.accreditation,
+            location: university.location,
+            website: university.website,
+            foundedYear: university.foundedYear,
+            viceCancellor: university.viceCancellor,
+            totalStudents: university.totalStudents,
+            totalFaculty: university.totalFaculty
+        });
+        setIsEditingAbout(true);
+    };
 
-    const events = [
-        { id: 1, title: 'Annual Convocation 2025', date: '2025-02-28', type: 'Academic', location: 'Grand Auditorium' },
-        { id: 2, title: 'International Research Symposium', date: '2025-03-15', type: 'Research', location: 'Convention Center' },
-        { id: 3, title: 'Doctoral Thesis Defense Week', date: '2025-04-01', type: 'Academic', location: 'Multiple Venues' },
-        { id: 4, title: 'Global Summit on Innovation', date: '2025-04-20', type: 'Conference', location: 'Main Campus' },
-        { id: 5, title: 'Post-Doctoral Fellowship Program', date: '2025-05-10', type: 'Research', location: 'Research Park' }
-    ];
+    const handleSaveAbout = () => {
+        setUniversityData({
+            ...university,
+            description: editAboutData.description,
+            motto: editAboutData.motto,
+            accreditation: editAboutData.accreditation,
+            location: editAboutData.location,
+            website: editAboutData.website,
+            foundedYear: editAboutData.foundedYear,
+            viceCancellor: editAboutData.viceCancellor,
+            totalStudents: editAboutData.totalStudents,
+            totalFaculty: editAboutData.totalFaculty
+        });
+        setEditToast('University information updated successfully! ✓');
+        setTimeout(() => setEditToast(''), 3000);
+        setIsEditingAbout(false);
+    };
+
+    // Faculty edit handlers
+    const handleEditFaculty = (member) => {
+        setEditingFaculty(member.id);
+        setEditFacultyForm({ ...member });
+        setShowEditFacultyModal(true);
+    };
+
+    const handleSaveFaculty = () => {
+        if (editingFaculty) {
+            // Update existing faculty member
+            setFaculty(faculty.map(f => f.id === editingFaculty ? editFacultyForm : f));
+            setEditToast('Faculty member updated successfully! ✓');
+        } else {
+            // Add new faculty member (if editingFaculty is null, it means we're creating)
+            setFaculty([...faculty, editFacultyForm]);
+            setEditToast('Faculty member added successfully! ✓');
+        }
+        setTimeout(() => setEditToast(''), 3000);
+        setShowEditFacultyModal(false);
+        setEditingFaculty(null);
+        setEditFacultyForm({});
+    };
+
+    const handleDeleteFaculty = (id) => {
+        if (window.confirm('Are you sure you want to remove this faculty member?')) {
+            setFaculty(faculty.filter(f => f.id !== id));
+            setEditToast('Faculty member removed! ✓');
+            setTimeout(() => setEditToast(''), 3000);
+        }
+    };
+
+    const handleAddFaculty = () => {
+        setEditingFaculty(null);
+        setEditFacultyForm({
+            id: Math.max(...faculty.map(f => f.id), 0) + 1,
+            name: '',
+            role: '',
+            avatar: '',
+            department: '',
+            email: '',
+            experience: '',
+            qualifications: ''
+        });
+        setShowEditFacultyModal(true);
+    };
+
+    // Event edit handlers
+    const handleEditEvent = (event) => {
+        setEditingEvent(event.id);
+        setEditEventForm({ ...event });
+        setShowEditEventModal(true);
+    };
+
+    const handleSaveEvent = () => {
+        if (editingEvent) {
+            // Update existing event
+            setEvents(events.map(e => e.id === editingEvent ? editEventForm : e));
+            setEditToast('Event updated successfully! ✓');
+        } else {
+            // Add new event
+            setEvents([...events, editEventForm]);
+            setEditToast('Event created successfully! ✓');
+        }
+        setTimeout(() => setEditToast(''), 3000);
+        setShowEditEventModal(false);
+        setEditingEvent(null);
+        setEditEventForm({});
+    };
+
+    const handleDeleteEvent = (id) => {
+        if (window.confirm('Are you sure you want to delete this event?')) {
+            setEvents(events.filter(e => e.id !== id));
+            setEditToast('Event deleted! ✓');
+            setTimeout(() => setEditToast(''), 3000);
+        }
+    };
+
+    const handleRegisterEvent = (eventId) => {
+        if (registeredEvents.includes(eventId)) {
+            // Unregister
+            setRegisteredEvents(registeredEvents.filter(id => id !== eventId));
+            setEditToast('Unregistered from event ✓');
+        } else {
+            // Register
+            setRegisteredEvents([...registeredEvents, eventId]);
+            setEditToast('Registered for event! ✓');
+        }
+        setTimeout(() => setEditToast(''), 3000);
+    };
+
+    const handleAddEvent = () => {
+        setEditingEvent(null);
+        setEditEventForm({
+            id: Math.max(...events.map(e => e.id), 0) + 1,
+            title: '',
+            date: '',
+            type: 'Academic',
+            location: ''
+        });
+        setShowEditEventModal(true);
+    };
+
+    // Gallery rename handler
+    const handleRenameImage = (id, currentName) => {
+        setRenamingImageId(id);
+        setNewImageName(currentName);
+        setShowGalleryRenameModal(true);
+    };
+
+    const handleSaveImageName = () => {
+        setGalleryImages(prev => prev.map(img =>
+            img.id === renamingImageId ? { ...img, name: newImageName } : img
+        ));
+        setEditToast('Image renamed successfully! ✓');
+        setTimeout(() => setEditToast(''), 3000);
+        setShowGalleryRenameModal(false);
+    };
 
     // Profile Picture Upload Modal
     const ProfileUploadModal = () => (
@@ -259,8 +425,8 @@ const UniversityProfile = () => {
                 className="hidden"
             />
             {showProfileUpload && (
-                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3 xs:p-4 sm:p-4 overflow-y-auto">
-                    <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-lg w-full sm:max-w-md shadow-2xl max-h-[95vh] overflow-y-auto my-auto">
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md shadow-2xl max-h-[95vh] overflow-y-auto">
                         <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 xs:p-5 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
                             <h3 className="text-base xs:text-lg sm:text-lg font-bold text-gray-900 dark:text-white">Upload Profile Picture</h3>
                             <button
@@ -340,6 +506,118 @@ const UniversityProfile = () => {
         </>
     );
 
+    // Share Modal
+    const ShareModal = () => {
+        const currentUrl = window.location.href;
+        
+        const handleCopyLink = () => {
+            navigator.clipboard.writeText(currentUrl);
+            setCopyFeedback(true);
+            setTimeout(() => setCopyFeedback(false), 2000);
+        };
+
+        const socialShareLinks = {
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+            linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`,
+            twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=Check out this university profile`
+        };
+
+        return (
+            <>
+                {showShareModal && (
+                    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+                        <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md shadow-2xl max-h-[95vh] overflow-y-auto">
+                            <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 xs:p-5 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                                <h3 className="text-base xs:text-lg sm:text-lg font-bold text-gray-900 dark:text-white">Share University Profile</h3>
+                                <button
+                                    onClick={() => setShowShareModal(false)}
+                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
+                                >
+                                    <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                                </button>
+                            </div>
+
+                            <div className="p-4 xs:p-5 sm:p-6 space-y-4 xs:space-y-5 sm:space-y-6">
+                                {/* Share to Social Networks */}
+                                <div>
+                                    <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Share on Social Networks</p>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        <a
+                                            href={socialShareLinks.facebook}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex flex-col items-center gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors"
+                                            title="Share on Facebook"
+                                        >
+                                            <Facebook className="w-6 h-6 text-blue-600" />
+                                            <span className="text-xs text-gray-600 dark:text-gray-400">Facebook</span>
+                                        </a>
+                                        <a
+                                            href={socialShareLinks.linkedin}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex flex-col items-center gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors"
+                                            title="Share on LinkedIn"
+                                        >
+                                            <Linkedin className="w-6 h-6 text-blue-700" />
+                                            <span className="text-xs text-gray-600 dark:text-gray-400">LinkedIn</span>
+                                        </a>
+                                        <a
+                                            href={socialShareLinks.twitter}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex flex-col items-center gap-2 p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-sky-50 dark:hover:bg-gray-700 transition-colors"
+                                            title="Share on Twitter"
+                                        >
+                                            <Twitter className="w-6 h-6 text-sky-500" />
+                                            <span className="text-xs text-gray-600 dark:text-gray-400">Twitter</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {/* Copy Link Section */}
+                                <div className="border-t border-gray-200 dark:border-gray-700 pt-4 xs:pt-5 sm:pt-6">
+                                    <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Copy Link</p>
+                                    <div className="flex gap-2">
+                                        <input
+                                            type="text"
+                                            value={currentUrl}
+                                            readOnly
+                                            className="flex-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 text-xs sm:text-sm text-gray-600 dark:text-gray-300"
+                                        />
+                                        <button
+                                            onClick={handleCopyLink}
+                                            className="p-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white rounded-lg transition-colors flex-shrink-0"
+                                            title="Copy link to clipboard"
+                                        >
+                                            <Copy className="w-5 h-5" />
+                                        </button>
+                                    </div>
+                                    {copyFeedback && (
+                                        <p className="text-xs text-green-600 dark:text-green-400 mt-2">✓ Link copied to clipboard!</p>
+                                    )}
+                                </div>
+
+                                {/* Close Button */}
+                                <div className="flex gap-2 pt-2 xs:pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <Button
+                                        onClick={() => setShowShareModal(false)}
+                                        variant="primary"
+                                        size="sm"
+                                        fullWidth
+                                        className="text-xs xs:text-sm"
+                                    >
+                                        Done
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    };
+
     // Banner Upload Modal
     const BannerUploadModal = () => (
         <>
@@ -351,8 +629,8 @@ const UniversityProfile = () => {
                 className="hidden"
             />
             {showBannerUpload && (
-                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3 xs:p-4 sm:p-4 overflow-y-auto">
-                    <div className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-lg w-full sm:max-w-md shadow-2xl max-h-[95vh] overflow-y-auto my-auto">
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md shadow-2xl max-h-[95vh] overflow-y-auto">
                         <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 xs:p-5 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
                             <h3 className="text-base xs:text-lg sm:text-lg font-bold text-gray-900 dark:text-white">Upload Banner</h3>
                             <button
@@ -468,21 +746,15 @@ const UniversityProfile = () => {
                 )}
 
                 <div ref={observerTarget} className="py-8">
-                    {hasMore && displayedPosts.length > 0 && (
-                        <div className="flex flex-col items-center gap-4">
-                            <Loader size="md" />
-                            <p className="text-gray-500 dark:text-gray-400 text-sm">
-                                Loading more announcements...
-                            </p>
-                        </div>
-                    )}
-
-                    {!hasMore && displayedPosts.length > 0 && (
-                        <div className="text-center py-4">
-                            <p className="text-gray-500 dark:text-gray-400 text-sm">
-                                ✓ You've reached the end of the feed
-                            </p>
-                        </div>
+                    {displayedPosts.length > 0 && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            totalItems={universityPosts.length}
+                            itemsPerPage={postsPerPage}
+                            onPageChange={handlePageChange}
+                            isLoading={isLoading}
+                        />
                     )}
                 </div>
             </div>
@@ -490,59 +762,174 @@ const UniversityProfile = () => {
     };
 
     const renderAbout = () => (
-        <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-            <div className="space-y-6">
-                <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">About {university.name}</h3>
-                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">{university.description}</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Founded Year</p>
-                        <p className="text-lg font-bold text-gray-900 dark:text-white">{university.foundedYear}</p>
-                    </div>
-                    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Vice-Chancellor</p>
-                        <p className="text-lg font-bold text-gray-900 dark:text-white">{university.principalName}</p>
-                    </div>
-                    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Students</p>
-                        <p className="text-lg font-bold text-gray-900 dark:text-white">{university.totalStudents}</p>
-                    </div>
-                    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Faculty</p>
-                        <p className="text-lg font-bold text-gray-900 dark:text-white">{university.totalTeachers}</p>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-3">University Motto</h4>
-                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 italic">"{university.motto}"</p>
-                </div>
-
-                <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-3">Accreditation</h4>
-                    <Badge variant="success">{university.accreditation}</Badge>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                        <MapPin className="w-5 h-5 flex-shrink-0 text-indigo-600" />
-                        <div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Location</p>
-                            <p className="text-sm font-semibold text-gray-900 dark:text-white">{university.location}</p>
-                        </div>
-                    </div>
-                    {university.website && (
-                        <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
-                            <Globe className="w-5 h-5 flex-shrink-0 text-indigo-600" />
-                            <div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Website</p>
-                                <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">{university.website}</p>
-                            </div>
-                        </div>
+        <div className="space-y-4">
+            {/* Edit About Button */}
+            <div className="flex justify-end mb-4">
+                <Button
+                    onClick={() => isEditingAbout ? handleSaveAbout() : handleEditAbout()}
+                    variant={isEditingAbout ? 'primary' : 'outline'}
+                    size="sm"
+                    className="flex items-center gap-2"
+                >
+                    {isEditingAbout ? (
+                        <>
+                            <Save className="w-4 h-4" />
+                            Save Changes
+                        </>
+                    ) : (
+                        <>
+                            <Edit className="w-4 h-4" />
+                            Edit Information
+                        </>
                     )}
+                </Button>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+                <div className="space-y-6">
+                    {/* Description */}
+                    <div>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">About {university.name}</h3>
+                        {isEditingAbout ? (
+                            <textarea
+                                value={editAboutData.description}
+                                onChange={(e) => setEditAboutData({...editAboutData, description: e.target.value})}
+                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white"
+                                rows="4"
+                            />
+                        ) : (
+                            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">{editAboutData.description}</p>
+                        )}
+                    </div>
+
+                    {/* Key Information Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {isEditingAbout ? (
+                            <>
+                                <div>
+                                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Founded Year</label>
+                                    <input 
+                                        type="text" 
+                                        value={editAboutData.foundedYear} 
+                                        onChange={(e) => setEditAboutData({...editAboutData, foundedYear: e.target.value})}
+                                        className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white" 
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Vice-Chancellor</label>
+                                    <input 
+                                        type="text" 
+                                        value={editAboutData.viceCancellor} 
+                                        onChange={(e) => setEditAboutData({...editAboutData, viceCancellor: e.target.value})}
+                                        className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white" 
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Total Students</label>
+                                    <input 
+                                        type="text" 
+                                        value={editAboutData.totalStudents} 
+                                        onChange={(e) => setEditAboutData({...editAboutData, totalStudents: e.target.value})}
+                                        className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white" 
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">Total Faculty</label>
+                                    <input 
+                                        type="text" 
+                                        value={editAboutData.totalFaculty} 
+                                        onChange={(e) => setEditAboutData({...editAboutData, totalFaculty: e.target.value})}
+                                        className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white" 
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Founded Year</p>
+                                    <p className="text-lg font-bold text-gray-900 dark:text-white">{editAboutData.foundedYear}</p>
+                                </div>
+                                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Vice-Chancellor</p>
+                                    <p className="text-lg font-bold text-gray-900 dark:text-white">{editAboutData.viceCancellor}</p>
+                                </div>
+                                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Students</p>
+                                    <p className="text-lg font-bold text-gray-900 dark:text-white">{editAboutData.totalStudents}</p>
+                                </div>
+                                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total Faculty</p>
+                                    <p className="text-lg font-bold text-gray-900 dark:text-white">{editAboutData.totalFaculty}</p>
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Motto */}
+                    <div>
+                        <h4 className="font-bold text-gray-900 dark:text-white mb-3">University Motto</h4>
+                        {isEditingAbout ? (
+                            <input
+                                type="text"
+                                value={editAboutData.motto}
+                                onChange={(e) => setEditAboutData({...editAboutData, motto: e.target.value})}
+                                className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white"
+                            />
+                        ) : (
+                            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 italic">"{editAboutData.motto}"</p>
+                        )}
+                    </div>
+
+                    {/* Accreditation */}
+                    <div>
+                        <h4 className="font-bold text-gray-900 dark:text-white mb-3">Accreditation</h4>
+                        {isEditingAbout ? (
+                            <input
+                                type="text"
+                                value={editAboutData.accreditation}
+                                onChange={(e) => setEditAboutData({...editAboutData, accreditation: e.target.value})}
+                                className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white"
+                            />
+                        ) : (
+                            <Badge variant="success">{editAboutData.accreditation}</Badge>
+                        )}
+                    </div>
+
+                    {/* Location & Website */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
+                                <MapPin className="w-5 h-5 flex-shrink-0 text-indigo-600" />
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Location</span>
+                            </label>
+                            {isEditingAbout ? (
+                                <input
+                                    type="text"
+                                    value={editAboutData.location}
+                                    onChange={(e) => setEditAboutData({...editAboutData, location: e.target.value})}
+                                    className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white text-sm"
+                                />
+                            ) : (
+                                <p className="text-sm font-semibold text-gray-900 dark:text-white">{editAboutData.location}</p>
+                            )}
+                        </div>
+                        <div>
+                            <label className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2">
+                                <Globe className="w-5 h-5 flex-shrink-0 text-indigo-600" />
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Website</span>
+                            </label>
+                            {isEditingAbout ? (
+                                <input
+                                    type="text"
+                                    value={editAboutData.website}
+                                    onChange={(e) => setEditAboutData({...editAboutData, website: e.target.value})}
+                                    className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white text-sm"
+                                />
+                            ) : (
+                                <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">{editAboutData.website}</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -567,8 +954,8 @@ const UniversityProfile = () => {
             )}
 
             {showGalleryUpload && (
-                <div className="fixed inset-0 z-50 bg-black/50 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
-                    <div className="bg-white dark:bg-gray-800 rounded-t-lg sm:rounded-lg w-full sm:max-w-2xl shadow-lg max-h-[95vh] overflow-y-auto my-auto">
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-2xl shadow-lg max-h-[95vh] overflow-y-auto">
                         <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
                             <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Upload Gallery Photos</h3>
                             <button
@@ -653,8 +1040,31 @@ const UniversityProfile = () => {
             {!showGalleryUpload && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {galleryImages.filter(img => img.preview).map((img) => (
-                        <div key={img.id} className="rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 aspect-square hover:shadow-lg transition-all">
+                        <div key={img.id} className="rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700 aspect-square hover:shadow-lg transition-all group relative">
                             <img src={img.preview} alt={img.name} className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+                                <button
+                                    onClick={() => {
+                                        setRenamingImageId(img.id);
+                                        setNewImageName(img.name);
+                                        setShowGalleryRenameModal(true);
+                                    }}
+                                    className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+                                    title="Rename image"
+                                >
+                                    <Edit className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={() => handleRemoveGalleryImage(img.id)}
+                                    className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                                    title="Remove image"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </button>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-xs p-2 line-clamp-2">
+                                {img.name}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -663,62 +1073,141 @@ const UniversityProfile = () => {
     );
 
     const renderFaculty = () => (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            {faculty.map((member) => (
-                <div key={member.id} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
-                    <div className="flex items-start gap-3 sm:gap-4 mb-4">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
-                            {member.avatar}
+        <div className="space-y-4">
+            <div className="flex justify-end mb-4">
+                <Button
+                    onClick={handleAddFaculty}
+                    variant="primary"
+                    size="sm"
+                    className="flex items-center gap-2"
+                >
+                    <Plus className="w-4 h-4" />
+                    Add Faculty Member
+                </Button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                {faculty.map((member) => (
+                    <div key={member.id} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all relative">
+                        <div className="flex gap-2 absolute top-3 right-3">
+                            <button
+                                onClick={() => handleEditFaculty(member)}
+                                className="p-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                                title="Edit"
+                            >
+                                <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => handleDeleteFaculty(member.id)}
+                                className="p-1.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                                title="Delete"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                            </button>
                         </div>
-                        <div className="flex-1 min-w-0">
-                            <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base line-clamp-1 mb-1">{member.name}</h4>
-                            <p className="text-xs sm:text-sm text-indigo-600 dark:text-indigo-400 font-medium mb-1">{member.role}</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{member.department}</p>
+
+                        <div className="flex items-start gap-3 sm:gap-4 mb-4">
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0 overflow-hidden border-2 border-indigo-200 dark:border-indigo-700">
+                                {member.avatar ? (
+                                    typeof member.avatar === 'string' && member.avatar.startsWith('data:') ? (
+                                        <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                                    ) : member.avatar.startsWith('http') ? (
+                                        <img src={member.avatar} alt={member.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        member.avatar.charAt(0).toUpperCase()
+                                    )
+                                ) : (
+                                    member.name ? member.name.charAt(0).toUpperCase() : '+'
+                                )}
+                            </div>
+                            <div className="flex-1 min-w-0 pr-8">
+                                <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base line-clamp-1 mb-1">{member.name}</h4>
+                                <p className="text-xs sm:text-sm text-indigo-600 dark:text-indigo-400 font-medium mb-1">{member.role}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">{member.department}</p>
+                            </div>
+                        </div>
+                        <div className="space-y-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700 pt-3">
+                            <p><span className="font-semibold text-gray-700 dark:text-gray-300">Email:</span> {member.email}</p>
+                            <p><span className="font-semibold text-gray-700 dark:text-gray-300">Experience:</span> {member.experience}</p>
+                            <p><span className="font-semibold text-gray-700 dark:text-gray-300">Qualifications:</span> {member.qualifications}</p>
                         </div>
                     </div>
-                    <div className="space-y-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700 pt-3">
-                        <p><span className="font-semibold text-gray-700 dark:text-gray-300">Email:</span> {member.email}</p>
-                        <p><span className="font-semibold text-gray-700 dark:text-gray-300">Experience:</span> {member.experience}</p>
-                        <p><span className="font-semibold text-gray-700 dark:text-gray-300">Qualifications:</span> {member.qualifications}</p>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 
     const renderEvents = () => (
-        <div className="space-y-4 sm:space-y-6">
-            {events.map((event) => (
-                <div key={event.id} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                        <div className="flex-1">
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
-                                <h4 className="font-semibold text-gray-900 dark:text-white text-base sm:text-lg">{event.title}</h4>
-                                <Badge variant={
-                                    event.type === 'Academic' ? 'primary' :
-                                    event.type === 'Research' ? 'success' :
-                                    event.type === 'Conference' ? 'warning' : 'secondary'
-                                } className="self-start">
-                                    {event.type}
-                                </Badge>
-                            </div>
-                            <div className="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400">
-                                <div className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4 flex-shrink-0 text-indigo-600" />
-                                    <span>{new Date(event.date).toLocaleDateString()}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <MapPin className="w-4 h-4 flex-shrink-0 text-indigo-600" />
-                                    <span>{event.location}</span>
-                                </div>
-                            </div>
+        <div className="space-y-4">
+            <div className="flex justify-end mb-4">
+                <Button
+                    onClick={handleAddEvent}
+                    variant="primary"
+                    size="sm"
+                    className="flex items-center gap-2"
+                >
+                    <Plus className="w-4 h-4" />
+                    Add Event
+                </Button>
+            </div>
+
+            <div className="space-y-4 sm:space-y-6">
+                {events.map((event) => (
+                    <div key={event.id} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all relative">
+                        <div className="flex gap-2 absolute top-3 right-3 z-10">
+                            <button
+                                onClick={() => handleEditEvent(event)}
+                                className="p-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                                title="Edit"
+                                type="button"
+                            >
+                                <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => handleDeleteEvent(event.id)}
+                                className="p-1.5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                                title="Delete"
+                                type="button"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                            </button>
                         </div>
-                        <Button variant="outline" size="sm" className="self-start sm:self-center">
-                            Register
-                        </Button>
+
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                            <div className="flex-1">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+                                    <h4 className="font-semibold text-gray-900 dark:text-white text-base sm:text-lg">{event.title}</h4>
+                                    <Badge variant={
+                                        event.type === 'Academic' ? 'primary' :
+                                        event.type === 'Research' ? 'success' :
+                                        event.type === 'Conference' ? 'warning' : 'secondary'
+                                    } className="self-start">
+                                        {event.type}
+                                    </Badge>
+                                </div>
+                                <div className="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                    <div className="flex items-center gap-2">
+                                        <Calendar className="w-4 h-4 flex-shrink-0 text-indigo-600" />
+                                        <span>{new Date(event.date).toLocaleDateString()}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <MapPin className="w-4 h-4 flex-shrink-0 text-indigo-600" />
+                                        <span>{event.location}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <Button 
+                                variant={registeredEvents.includes(event.id) ? 'primary' : 'outline'}
+                                size="sm"
+                                onClick={() => handleRegisterEvent(event.id)}
+                                className="self-start sm:self-center"
+                            >
+                                {registeredEvents.includes(event.id) ? 'Registered' : 'Register'}
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 
@@ -900,12 +1389,8 @@ const UniversityProfile = () => {
                     Faculty
                 </button>
                 <button
-                    onClick={() => setActiveTab('gallery')}
-                    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
-                        activeTab === 'gallery'
-                            ? 'text-indigo-600 border-indigo-600 dark:text-indigo-400'
-                            : 'text-gray-600 dark:text-gray-400 border-transparent'
-                    }`}
+                    onClick={() => navigate(`/academia/university/${universityId}/gallery`)}
+                    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors border-b-2 text-gray-600 dark:text-gray-400 border-transparent hover:text-indigo-600 dark:hover:text-indigo-400`}
                 >
                     <ImageIcon className="w-4 h-4" />
                     Gallery
@@ -927,12 +1412,349 @@ const UniversityProfile = () => {
             {activeTab === 'feed' && renderFeed()}
             {activeTab === 'about' && renderAbout()}
             {activeTab === 'faculty' && renderFaculty()}
-            {activeTab === 'gallery' && renderGallery()}
             {activeTab === 'events' && renderEvents()}
 
             {/* Modals */}
             <ProfileUploadModal />
             <BannerUploadModal />
+            <ShareModal />
+
+            {/* Edit Faculty Modal */}
+            {showEditFacultyModal && (
+                <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 xs:p-4 sm:p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl w-full max-w-md sm:max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto my-auto">
+                        <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 xs:p-5 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700 rounded-t-xl">
+                            <h3 className="text-base xs:text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                                {editingFaculty ? 'Edit Faculty Member' : 'Add Faculty Member'}
+                            </h3>
+                            <button
+                                onClick={() => {
+                                    setShowEditFacultyModal(false);
+                                    setEditingFaculty(null);
+                                    setEditFacultyForm({ name: '', role: '', avatar: '', department: '', email: '', experience: '', qualifications: '' });
+                                }}
+                                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
+                            >
+                                <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                            </button>
+                        </div>
+
+                        <div className="p-4 xs:p-5 sm:p-6 space-y-4 xs:space-y-5 sm:space-y-6">
+                            {/* Profile Photo Section */}
+                            <div className="flex flex-col items-center pb-2 border-b border-gray-100 dark:border-gray-700">
+                                <div className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center text-white text-2xl xs:text-3xl sm:text-4xl font-bold mb-3 xs:mb-4 overflow-hidden border-4 border-indigo-200 dark:border-indigo-700">
+                                    {editFacultyForm.avatar ? (
+                                        typeof editFacultyForm.avatar === 'string' && editFacultyForm.avatar.startsWith('data:') ? (
+                                            <img src={editFacultyForm.avatar} alt="Faculty" className="w-full h-full object-cover" />
+                                        ) : editFacultyForm.avatar.startsWith('http') ? (
+                                            <img src={editFacultyForm.avatar} alt="Faculty" className="w-full h-full object-cover" />
+                                        ) : (
+                                            editFacultyForm.avatar.charAt(0).toUpperCase()
+                                        )
+                                    ) : editFacultyForm.name ? (
+                                        editFacultyForm.name.charAt(0).toUpperCase()
+                                    ) : (
+                                        '+'
+                                    )}
+                                </div>
+                                <div className="flex gap-2 flex-wrap justify-center">
+                                    <button
+                                        onClick={() => document.getElementById('facultyPhotoInput').click()}
+                                        className="px-3 xs:px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors text-xs xs:text-sm font-medium"
+                                    >
+                                        Upload Photo
+                                    </button>
+                                    {editFacultyForm.avatar && editFacultyForm.avatar.startsWith('data:') && (
+                                        <button
+                                            onClick={() => setEditFacultyForm({...editFacultyForm, avatar: ''})}
+                                            className="px-3 xs:px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors text-xs xs:text-sm font-medium"
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
+                                </div>
+                                <input
+                                    id="facultyPhotoInput"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onloadend = () => {
+                                                setEditFacultyForm({...editFacultyForm, avatar: reader.result});
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    }}
+                                    className="hidden"
+                                />
+                            </div>
+
+                            {/* Name */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name *</label>
+                                <input
+                                    type="text"
+                                    value={editFacultyForm.name}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, name: e.target.value})}
+                                    placeholder="Full name"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                />
+                            </div>
+
+                            {/* Role */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Role *</label>
+                                <input
+                                    type="text"
+                                    value={editFacultyForm.role}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, role: e.target.value})}
+                                    placeholder="e.g., Professor, Lecturer"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                />
+                            </div>
+
+                            {/* Department */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Department *</label>
+                                <input
+                                    type="text"
+                                    value={editFacultyForm.department}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, department: e.target.value})}
+                                    placeholder="e.g., Engineering, Science"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                />
+                            </div>
+
+                            {/* Email */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                                <input
+                                    type="email"
+                                    value={editFacultyForm.email}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, email: e.target.value})}
+                                    placeholder="faculty@university.edu"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                />
+                            </div>
+
+                            {/* Experience */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Experience (years)</label>
+                                <input
+                                    type="number"
+                                    value={editFacultyForm.experience}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, experience: e.target.value})}
+                                    placeholder="15"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                />
+                            </div>
+
+                            {/* Qualifications */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Qualifications</label>
+                                <textarea
+                                    value={editFacultyForm.qualifications}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, qualifications: e.target.value})}
+                                    placeholder="e.g., Ph.D. in Computer Science, Master's in Engineering"
+                                    rows="3"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none transition-all"
+                                />
+                            </div>
+
+                            {/* Avatar URL */}
+                            <div>
+                                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Avatar URL</label>
+                                <input
+                                    type="text"
+                                    value={editFacultyForm.avatar}
+                                    onChange={(e) => setEditFacultyForm({...editFacultyForm, avatar: e.target.value})}
+                                    placeholder="https://example.com/avatar.jpg"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900 p-4 xs:p-5 sm:p-6 border-t border-gray-200 dark:border-gray-700 flex gap-2 xs:gap-3 rounded-b-xl">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1 text-xs xs:text-sm"
+                                onClick={() => {
+                                    setShowEditFacultyModal(false);
+                                    setEditingFaculty(null);
+                                    setEditFacultyForm({ name: '', role: '', avatar: '', department: '', email: '', experience: '', qualifications: '' });
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                className="flex-1 text-xs xs:text-sm"
+                                onClick={handleSaveFaculty}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Event Modal */}
+            {showEditEventModal && (
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md shadow-lg max-h-[95vh] overflow-y-auto">
+                        <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                            <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
+                                {editingEvent ? 'Edit Event' : 'Add Event'}
+                            </h3>
+                            <button
+                                onClick={() => {
+                                    setShowEditEventModal(false);
+                                    setEditingEvent(null);
+                                    setEditEventForm({ title: '', date: '', type: 'Academic', location: '' });
+                                }}
+                                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                            >
+                                <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                            </button>
+                        </div>
+
+                        <div className="p-4 sm:p-6 space-y-4">
+                            {/* Title */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Title</label>
+                                <input
+                                    type="text"
+                                    value={editEventForm.title}
+                                    onChange={(e) => setEditEventForm({...editEventForm, title: e.target.value})}
+                                    placeholder="e.g., Annual Scholarship Summit"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                />
+                            </div>
+
+                            {/* Date */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date</label>
+                                <input
+                                    type="date"
+                                    value={editEventForm.date}
+                                    onChange={(e) => setEditEventForm({...editEventForm, date: e.target.value})}
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                />
+                            </div>
+
+                            {/* Type */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Event Type</label>
+                                <select
+                                    value={editEventForm.type}
+                                    onChange={(e) => setEditEventForm({...editEventForm, type: e.target.value})}
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                >
+                                    <option value="Academic">Academic</option>
+                                    <option value="Research">Research</option>
+                                    <option value="Conference">Conference</option>
+                                </select>
+                            </div>
+
+                            {/* Location */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
+                                <input
+                                    type="text"
+                                    value={editEventForm.location}
+                                    onChange={(e) => setEditEventForm({...editEventForm, location: e.target.value})}
+                                    placeholder="e.g., Main Auditorium, Online"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 border-t border-gray-200 dark:border-gray-700 flex gap-3">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                                onClick={() => {
+                                    setShowEditEventModal(false);
+                                    setEditingEvent(null);
+                                    setEditEventForm({ title: '', date: '', type: 'Academic', location: '' });
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                className="flex-1"
+                                onClick={handleSaveEvent}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Gallery Rename Modal */}
+            {showGalleryRenameModal && (
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg w-full max-w-md shadow-lg">
+                        <div className="p-4 sm:p-6 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+                            <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Rename Gallery Image</h3>
+                            <button
+                                onClick={() => {
+                                    setShowGalleryRenameModal(false);
+                                    setRenamingImageId(null);
+                                    setNewImageName('');
+                                }}
+                                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                            >
+                                <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                            </button>
+                        </div>
+
+                        <div className="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image Name</label>
+                                <input
+                                    type="text"
+                                    value={newImageName}
+                                    onChange={(e) => setNewImageName(e.target.value)}
+                                    placeholder="e.g., Campus Building, Student Center"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 border-t border-gray-200 dark:border-gray-700 flex gap-3">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                                onClick={() => {
+                                    setShowGalleryRenameModal(false);
+                                    setRenamingImageId(null);
+                                    setNewImageName('');
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                className="flex-1"
+                                onClick={handleSaveImageName}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Toast Notification */}
             {uploadToast && (

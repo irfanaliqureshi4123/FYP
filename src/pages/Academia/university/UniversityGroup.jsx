@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Users, MessageSquare, FileText, ArrowLeft, Search, Plus, Bell, Calendar, BookOpen, Building2, ChevronRight } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import Badge from '../../../components/common/Badge';
 import Button from '../../../components/common/Button';
 import universityDepartmentsData from '../../../data/universityDepartments.json';
@@ -12,18 +12,82 @@ import universitiesData from '../../../data/universities.json';
  * Shows all departments of a university as cards with explore button
  * When departmentId is provided, shows department details with tabs
  * Structure: University → Departments → (Explore to see batch/semester details)
+ * Can be used standalone with URL params or with props from registration
  */
-const UniversityGroup = () => {
-    const navigate = useNavigate();
-    const { universityId, departmentId } = useParams();
+const UniversityGroup = (props) => {
+    // Try to get router hooks, but don't fail if they're not available
+    let navigate = null;
+    let location = null;
+    let params = {};
+    
+    try {
+        navigate = useNavigate();
+    } catch (e) {
+        // Outside router context
+    }
+    
+    try {
+        location = useLocation();
+    } catch (e) {
+        // Outside router context
+    }
+    
+    try {
+        params = useParams();
+    } catch (e) {
+        // Outside router context
+    }
+    
+    const { universityId: paramUniversityId, departmentId: paramDepartmentId } = params || {};
+    
+    // Accept universityId and university from props (for registration flow) or from URL params
+    const universityId = props.universityId || paramUniversityId;
+    const departmentId = props.departmentId || paramDepartmentId;
+    const propUniversity = props.university;
+    const isInRegistration = props.isInRegistration;
+    
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTab, setActiveTab] = useState('discussion');
+    const [showComingSoon, setShowComingSoon] = useState(false);
+
+    // Handle back button navigation
+    const handleBack = useCallback(() => {
+        // If in registration flow, use the callback
+        if (isInRegistration && props.onBack) {
+            props.onBack();
+            return;
+        }
+        
+        // If navigate isn't available, call the onBack prop callback
+        if (!navigate) {
+            props.onBack?.();
+            return;
+        }
+        
+        // Always navigate based on current view, not browser history
+        if (departmentId) {
+            // If viewing department details, go back to department list
+            navigate(`/university-group/${universityId}`);
+        } else {
+            // If viewing university departments list, go back to explore
+            navigate('/explore');
+        }
+    }, [navigate, universityId, departmentId, props, isInRegistration]);
 
     // Find university and departments
-    const university = universitiesData.find(u => u.id === universityId) || universitiesData[0];
-    const departments = universityDepartmentsData.filter(d => d.universityId === universityId);
+    const university = propUniversity || universitiesData.find(u => u.id === universityId) || universitiesData[0];
+    const departments = universityDepartmentsData.filter(d => d.universityId === universityId) || [];
     const department = departmentId ? universityDepartmentsData.find(d => d.id === departmentId) : null;
     const departmentPosts = department ? universityPostsData.filter(p => p.departmentId === department.id) : [];
+
+    // Ensure we have valid university data
+    if (!university) {
+        return (
+            <div className="p-8 text-center">
+                <p className="text-gray-600 dark:text-gray-400">Unable to load university information</p>
+            </div>
+        );
+    }
 
     // Sample data for announcements, members, resources, and batches
     const sampleAnnouncements = [
@@ -98,13 +162,13 @@ const UniversityGroup = () => {
             {/* Back Button */}
             <div className="flex items-center mb-2 px-2 sm:px-0">
                 <button
-                    onClick={() => navigate('/university')}
+                    onClick={handleBack}
                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors -ml-2"
-                    aria-label="Go back to universities"
+                    aria-label="Go back"
                 >
                     <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </button>
-                <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">Back to Universities</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">Back</span>
             </div>
 
             {/* Show department list view if no departmentId is provided */}
@@ -140,8 +204,12 @@ const UniversityGroup = () => {
 
                     {/* Search */}
                     <div className="relative">
-                        <Search className="absolute left-3 xs:left-4 top-1/2 -translate-y-1/2 w-4 xs:w-5 h-4 xs:h-5 text-gray-400 flex-shrink-0" />
+                        <label htmlFor="department-search" className="absolute left-3 xs:left-4 top-1/2 -translate-y-1/2 w-4 xs:w-5 h-4 xs:h-5 text-gray-400 flex-shrink-0 cursor-pointer">
+                            <Search className="w-full h-full" />
+                            <span className="sr-only">Search departments</span>
+                        </label>
                         <input
+                            id="department-search"
                             type="search"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -155,7 +223,11 @@ const UniversityGroup = () => {
                         {departments.filter(dept =>
                             dept.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             dept.description.toLowerCase().includes(searchQuery.toLowerCase())
-                        ).map((dept) => (
+                        ).length > 0 ? (
+                            departments.filter(dept =>
+                                dept.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                dept.description.toLowerCase().includes(searchQuery.toLowerCase())
+                            ).map((dept) => (
                             <div key={dept.id} className="bg-white dark:bg-gray-800 rounded-lg xs:rounded-lg sm:rounded-xl md:rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                                 {/* Header */}
                                 <div className="p-3 xs:p-4 sm:p-5 md:p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20">
@@ -195,24 +267,31 @@ const UniversityGroup = () => {
                                 {/* Action Button */}
                                 <div className="p-3 xs:p-4 sm:p-5 md:p-6 border-t border-gray-200 dark:border-gray-700">
                                     <Button
-                                        onClick={() => navigate(`/university-group/${universityId}/${dept.id}`)}
+                                        onClick={() => setShowComingSoon(true)}
                                         className="w-full text-xs xs:text-sm"
                                         variant="primary"
                                         size="sm"
                                     >
-                                        Explore Group
-                                        <ChevronRight className="w-3 xs:w-4 h-3 xs:h-4 ml-1 xs:ml-2" />
+                                        <Plus className="w-3 xs:w-4 h-3 xs:h-4 mr-1 xs:ml-2" />
+                                        Join Department
                                     </Button>
                                 </div>
                             </div>
-                        ))}
+                        ))
+                        ) : (
+                            <div className="col-span-full bg-white dark:bg-gray-800 rounded-lg p-8 text-center border border-gray-200 dark:border-gray-700">
+                                <Building2 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                                <p className="text-gray-600 dark:text-gray-400 mb-4">No departments added yet</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-500">Create your first department to get started with your university group</p>
+                            </div>
+                        )}
                     </div>
 
-                    {/* No results message */}
+                    {/* No results message from search */}
                     {departments.filter(dept =>
                         dept.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         dept.description.toLowerCase().includes(searchQuery.toLowerCase())
-                    ).length === 0 && (
+                    ).length === 0 && departments.length > 0 && (
                         <div className="bg-white dark:bg-gray-800 rounded-lg p-8 text-center border border-gray-200 dark:border-gray-700">
                             <p className="text-gray-600 dark:text-gray-400">No departments found matching your search.</p>
                         </div>
@@ -227,25 +306,19 @@ const UniversityGroup = () => {
 
                     {/* Department Header */}
                     <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                            <div className="flex-1">
-                                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{department.name}</h2>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{department.description}</p>
-                                <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-3">
-                                    <span className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
-                                        <Users className="w-4 h-4" />
-                                        {department.memberCount} Members
-                                    </span>
-                                    <span className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
-                                        <Calendar className="w-4 h-4" />
-                                        {department.batches?.length || 0} Batches
-                                    </span>
-                                </div>
+                        <div>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{department.name}</h2>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{department.description}</p>
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-3">
+                                <span className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                                    <Users className="w-4 h-4" />
+                                    {department.memberCount} Members
+                                </span>
+                                <span className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                                    <Calendar className="w-4 h-4" />
+                                    {department.batches?.length || 0} Batches
+                                </span>
                             </div>
-                            <Button variant="primary" size="sm">
-                                <Plus className="w-4 h-4 mr-1" />
-                                Join Department
-                            </Button>
                         </div>
                     </div>
 
@@ -308,7 +381,9 @@ const UniversityGroup = () => {
                                     <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
                                         <div className="flex gap-3">
                                             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 flex-shrink-0" />
+                                            <label htmlFor="discussion-input" className="sr-only">Start a discussion</label>
                                             <input
+                                                id="discussion-input"
                                                 type="text"
                                                 placeholder="Start a discussion..."
                                                 className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -437,7 +512,7 @@ const UniversityGroup = () => {
                                                 {batch.semesters.map((sem, idx) => (
                                                     <button
                                                         key={idx}
-                                                        onClick={() => navigate(`/university-semester/${universityId}/${department.id}/${batch.id}/${idx}`)}
+                                                        onClick={() => navigate && navigate(`/university-semester/${universityId}/${department.id}/${batch.id}/${idx}`)}
                                                         className="text-xs px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded hover:bg-indigo-200 dark:hover:bg-indigo-900/50 transition-colors"
                                                     >
                                                         {sem}
@@ -448,6 +523,38 @@ const UniversityGroup = () => {
                                     ))}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Coming Soon Popup */}
+            {showComingSoon && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full border border-gray-200 dark:border-gray-700">
+                        <div className="p-6 text-center">
+                            <div className="mb-4 flex justify-center">
+                                <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                                    <BookOpen className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                                </div>
+                            </div>
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                                Coming Soon!
+                            </h3>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                                The Learning Management System (LMS) feature is currently under development. We're building an amazing experience for you.
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-500 mb-6">
+                                Expected launch: Q1 2026
+                            </p>
+                            <Button
+                                onClick={() => setShowComingSoon(false)}
+                                variant="primary"
+                                size="sm"
+                                className="w-full"
+                            >
+                                Got it
+                            </Button>
                         </div>
                     </div>
                 </div>
