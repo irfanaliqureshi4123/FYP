@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, GraduationCap, Briefcase, Users } from 'lucide-react';
+import { Search, Users, Briefcase, BookOpen, Sparkles, Heart, Map, MessageCircle } from 'lucide-react';
 import careersData from '../data/careers.json';
 import universityData from '../data/university.json';
 import usersData from '../data/users.json';
@@ -19,9 +19,12 @@ const Explore = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const tabs = [
-        { id: 'academia', label: 'My Academia', icon: GraduationCap, path: '/academia' },
-        { id: 'careers', label: 'Careers', icon: Briefcase, path: '/careers' },
-        { id: 'mentors', label: 'Mentors', icon: Users, path: '/mentors' },
+        { id: 'counselling', label: 'Career Counselling', icon: Briefcase, path: '/counselling', description: 'Professional guidance and insights' },
+        { id: 'ai-chat', label: 'AI Chat', icon: MessageCircle, path: '/ai-chat', description: 'AI chatbot & recommendations' },
+        { id: 'ai-tools', label: 'AI Tools', icon: Sparkles, path: '/ai-tools', description: 'Resume building & interview prep' },
+        { id: 'wellbeing', label: 'Wellbeing', icon: Heart, path: '/wellbeing', description: 'Digital wellness & balance' },
+        { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmap', description: 'Personalized career paths' },
+        { id: 'resources', label: 'Resources', icon: BookOpen, path: '/resources', description: 'Free and paid learning materials' },
     ];
 
     const filteredCareers = careersData.filter(career =>
@@ -33,11 +36,6 @@ const Explore = () => {
         course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         course.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
         course.instructor.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const filteredMentors = usersData.filter(user =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -82,132 +80,6 @@ const Explore = () => {
                         </Button>
                     </div>
                 ))}
-            </div>
-
-            {/* Quick Preview Sections */}
-            <div className="space-y-6 sm:space-y-8">
-                {/* Academia Preview */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-                    <div className="border-b border-gray-200 dark:border-gray-700 p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                            <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
-                            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">My Academia</h2>
-                        </div>
-                        <Button variant="outline" size="sm" onClick={() => navigate('/academia')}>
-                            View All
-                        </Button>
-                    </div>
-                    <div className="p-4 sm:p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {filteredCourses.slice(0, 2).map((course) => (
-                                <div
-                                    key={course.id}
-                                    className="border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-md transition-all hover:border-primary-500 dark:hover:border-primary-500 cursor-pointer"
-                                    onClick={() => navigate('/academia')}
-                                >
-                                    <div className="flex items-start justify-between mb-2 sm:mb-3">
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white truncate">
-                                                {course.title}
-                                            </h3>
-                                            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                                {course.department}
-                                            </p>
-                                        </div>
-                                        <Badge variant="secondary" size="sm">{course.credits} Credits</Badge>
-                                    </div>
-                                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">
-                                        Instructor: {course.instructor}
-                                    </p>
-                                    <span className="text-primary-600 font-semibold text-sm">
-                                        {course.schedule}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Careers Preview */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-                    <div className="border-b border-gray-200 dark:border-gray-700 p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                            <Briefcase className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
-                            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Featured Careers</h2>
-                        </div>
-                        <Button variant="outline" size="sm" onClick={() => navigate('/careers')}>
-                            View All
-                        </Button>
-                    </div>
-                    <div className="p-4 sm:p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {filteredCareers.slice(0, 2).map((career) => (
-                                <div
-                                    key={career.id}
-                                    className="border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-md transition-all hover:border-primary-500 dark:hover:border-primary-500 cursor-pointer"
-                                    onClick={() => navigate('/careers')}
-                                >
-                                    <div className="flex items-start justify-between mb-2 sm:mb-3">
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white truncate">
-                                                {career.title}
-                                            </h3>
-                                            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                                {career.category}
-                                            </p>
-                                        </div>
-                                        <Badge variant="success" size="sm">{career.growth}</Badge>
-                                    </div>
-                                    <p className="text-gray-600 dark:text-gray-300 text-xs sm:text-sm mb-2 sm:mb-3 line-clamp-2">
-                                        {career.description}
-                                    </p>
-                                    <span className="text-primary-600 font-semibold text-sm">
-                                        {career.salaryRange}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Mentors Preview */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-                    <div className="border-b border-gray-200 dark:border-gray-700 p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                            <Users className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600" />
-                            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Featured Mentors</h2>
-                        </div>
-                        <Button variant="outline" size="sm" onClick={() => navigate('/mentors')}>
-                            View All
-                        </Button>
-                    </div>
-                    <div className="p-4 sm:p-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {filteredMentors.slice(0, 2).map((mentor) => (
-                                <div
-                                    key={mentor.id}
-                                    className="border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-md transition-all cursor-pointer"
-                                    onClick={() => navigate('/mentors')}
-                                >
-                                    <div className="flex items-start gap-3 sm:gap-4">
-                                        <Avatar src={mentor.avatar} alt={mentor.name} size="md" />
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-bold text-sm sm:text-base text-gray-900 dark:text-white truncate">
-                                                {mentor.name}
-                                            </h3>
-                                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                                                {mentor.title}
-                                            </p>
-                                            <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1 sm:mt-2 line-clamp-2">
-                                                {mentor.bio}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );

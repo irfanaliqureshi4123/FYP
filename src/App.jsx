@@ -13,14 +13,12 @@ import NotFound from './pages/NotFound';
 import Roadmap from './pages/Roadmap';
 
 // Lazy load route components for code splitting
-const University = lazy(() => import('./pages/Academia/university/University'));
-const UniversityProfile = lazy(() => import('./pages/Academia/university/UniversityProfile'));
-const UniversityGallery = lazy(() => import('./pages/Academia/university/UniversityGallery'));
-const UniversityGroup = lazy(() => import('./pages/Academia/university/UniversityGroup'));
-const UniversitySemesterGroup = lazy(() => import('./pages/Academia/university/UniversitySemesterGroup'));
-const UniversityCourseSubGroup = lazy(() => import('./pages/Academia/university/UniversityCourseSubGroup'));
 const Careers = lazy(() => import('./pages/Careers'));
-const Mentors = lazy(() => import('./pages/mentors/Mentors'));
+const CareerCounselling = lazy(() => import('./pages/CareerCounselling'));
+const AIChat = lazy(() => import('./pages/AIChat'));
+const AITools = lazy(() => import('./pages/AITools'));
+const DigitalWellbeing = lazy(() => import('./pages/DigitalWellbeing'));
+const Resources = lazy(() => import('./pages/Resources'));
 const Profile = lazy(() => import('./pages/user profiles/Profile'));
 const EditProfile = lazy(() => import('./pages/user profiles/EditProfile'));
 const Messages = lazy(() => import('./pages/messages/Messages'));
@@ -57,17 +55,12 @@ function App() {
                 <Route path="search" element={<Suspense fallback={<PageLoader />}><Search /></Suspense>} />
                 <Route path="roadmap" element={<Roadmap />} />
                 <Route path="explore" element={<Explore />} />
-                <Route path="academia" element={<Navigate to="/university" />} />
-                <Route path="university" element={<Suspense fallback={<PageLoader />}><University /></Suspense>} />
-                <Route path="university-profile/:universityId" element={<Suspense fallback={<PageLoader />}><UniversityProfile /></Suspense>} />
-                <Route path="academia/university/:universityId" element={<Suspense fallback={<PageLoader />}><UniversityProfile /></Suspense>} />
-                <Route path="academia/university/:universityId/gallery" element={<Suspense fallback={<PageLoader />}><UniversityGallery /></Suspense>} />
-                <Route path="university-group/:universityId" element={<Suspense fallback={<PageLoader />}><UniversityGroup /></Suspense>} />
-                <Route path="university-group/:universityId/:departmentId" element={<Suspense fallback={<PageLoader />}><UniversityGroup /></Suspense>} />
-                <Route path="university-semester/:universityId/:departmentId/:batchId/:semesterId" element={<Suspense fallback={<PageLoader />}><UniversitySemesterGroup /></Suspense>} />
-                <Route path="university-course/:universityId/:departmentId/:classId" element={<Suspense fallback={<PageLoader />}><UniversityCourseSubGroup /></Suspense>} />
+                <Route path="ai-chat" element={<Suspense fallback={<PageLoader />}><AIChat /></Suspense>} />
+                <Route path="ai-tools" element={<Suspense fallback={<PageLoader />}><AITools /></Suspense>} />
+                <Route path="wellbeing" element={<Suspense fallback={<PageLoader />}><DigitalWellbeing /></Suspense>} />
+                <Route path="resources" element={<Suspense fallback={<PageLoader />}><Resources /></Suspense>} />
                 <Route path="careers" element={<Suspense fallback={<PageLoader />}><Careers /></Suspense>} />
-                <Route path="mentors" element={<Suspense fallback={<PageLoader />}><Mentors /></Suspense>} />
+                <Route path="counselling" element={<Suspense fallback={<PageLoader />}><CareerCounselling /></Suspense>} />
                 <Route path="profile/:username" element={<Suspense fallback={<PageLoader />}><Profile /></Suspense>} />
                 <Route path="profile/:username/edit" element={<Suspense fallback={<PageLoader />}><EditProfile /></Suspense>} />
                 <Route path="messages" element={<Suspense fallback={<PageLoader />}><Messages /></Suspense>} />

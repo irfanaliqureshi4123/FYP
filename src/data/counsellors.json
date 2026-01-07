@@ -1,0 +1,162 @@
+[
+  {
+    "id": "counsel-001",
+    "name": "Dr. Sarah Johnson",
+    "title": "Senior Career Counsellor",
+    "specialization": "Tech & IT",
+    "bio": "10+ years of experience in tech industry recruitment and career guidance",
+    "fees": 50,
+    "currency": "USD",
+    "experience": "15 years",
+    "rating": 4.8,
+    "reviews": 124,
+    "avatar": "👨‍💼",
+    "certifications": ["Career Counselling Certification", "Life Coach", "HR Expert"],
+    "availability": "Mon-Fri, 9am-6pm",
+    "languages": ["English", "Spanish"],
+    "testimonials": [
+      "Dr. Johnson helped me transition into tech roles successfully!",
+      "Amazing insights about career progression"
+    ]
+  },
+  {
+    "id": "counsel-002",
+    "name": "Prof. Michael Chen",
+    "title": "Business & Finance Counsellor",
+    "specialization": "Finance & Business",
+    "bio": "MBA from top university, specialized in business strategy and finance careers",
+    "fees": 60,
+    "currency": "USD",
+    "experience": "12 years",
+    "rating": 4.9,
+    "reviews": 98,
+    "avatar": "👨‍🏫",
+    "certifications": ["MBA", "Financial Advisor", "Business Strategist"],
+    "availability": "Tue-Sat, 10am-7pm",
+    "languages": ["English", "Mandarin"],
+    "testimonials": [
+      "Helped me land a finance role with great salary",
+      "Excellent guidance on MBA selection"
+    ]
+  },
+  {
+    "id": "counsel-003",
+    "name": "Lisa Rodriguez",
+    "title": "Creative Industries Counsellor",
+    "specialization": "Design, Arts & Media",
+    "bio": "Creative professional with experience in design, marketing, and media industries",
+    "fees": 45,
+    "currency": "USD",
+    "experience": "10 years",
+    "rating": 4.7,
+    "reviews": 87,
+    "avatar": "👩‍🎨",
+    "certifications": ["Graphic Design", "Marketing Strategy", "Career Coach"],
+    "availability": "Mon-Thu, 2pm-9pm",
+    "languages": ["English", "French"],
+    "testimonials": [
+      "Perfect guidance for my design career transition",
+      "Helped me build a strong portfolio"
+    ]
+  },
+  {
+    "id": "counsel-004",
+    "name": "Dr. James Wilson",
+    "title": "Healthcare & Sciences Counsellor",
+    "specialization": "Medical & Healthcare",
+    "bio": "Medical professional and career guide for healthcare field aspirants",
+    "fees": 55,
+    "currency": "USD",
+    "experience": "14 years",
+    "rating": 4.8,
+    "reviews": 112,
+    "avatar": "👨‍⚕️",
+    "certifications": ["MD", "Medical Advisor", "Career Counsellor"],
+    "availability": "Wed-Sun, 11am-8pm",
+    "languages": ["English", "German"],
+    "testimonials": [
+      "Guided me through medical school selection",
+      "Excellent knowledge of healthcare careers"
+    ]
+  },
+  {
+    "id": "counsel-005",
+    "name": "Emma Thompson",
+    "title": "Education & Academia Counsellor",
+    "specialization": "Education & Research",
+    "bio": "Academic researcher and career guide for education field professionals",
+    "fees": 48,
+    "currency": "USD",
+    "experience": "11 years",
+    "rating": 4.6,
+    "reviews": 76,
+    "avatar": "👩‍🎓",
+    "certifications": ["PhD", "Academic Advisor", "Research Guide"],
+    "availability": "Mon-Fri, 8am-5pm",
+    "languages": ["English", "Italian"],
+    "testimonials": [
+      "Helped me pursue research career successfully",
+      "Great insight into academic paths"
+    ]
+  },
+  {
+    "id": "counsel-006",
+    "name": "David Kumar",
+    "title": "Entrepreneurship & Startup Counsellor",
+    "specialization": "Entrepreneurship",
+    "bio": "Startup founder and mentor helping aspiring entrepreneurs and business builders",
+    "fees": 70,
+    "currency": "USD",
+    "experience": "9 years",
+    "rating": 4.9,
+    "reviews": 103,
+    "avatar": "👨‍💼",
+    "certifications": ["Startup Mentor", "Business Coach", "Investor"],
+    "availability": "Tue-Sat, 12pm-9pm",
+    "languages": ["English", "Hindi"],
+    "testimonials": [
+      "Helped me launch my successful startup",
+      "Invaluable guidance on business planning"
+    ]
+  },
+  {
+    "id": "counsel-007",
+    "name": "Priya Patel",
+    "title": "HR & Management Counsellor",
+    "specialization": "Human Resources",
+    "bio": "HR professional with expertise in career development and management roles",
+    "fees": 52,
+    "currency": "USD",
+    "experience": "13 years",
+    "rating": 4.7,
+    "reviews": 91,
+    "avatar": "👩‍💼",
+    "certifications": ["SHRM", "HR Manager", "Career Coach"],
+    "availability": "Mon-Thu, 10am-6pm",
+    "languages": ["English", "Tamil"],
+    "testimonials": [
+      "Excellent guidance for HR career transition",
+      "Helped me secure leadership position"
+    ]
+  },
+  {
+    "id": "counsel-008",
+    "name": "Alex Martinez",
+    "title": "Engineering & Technology Counsellor",
+    "specialization": "Engineering",
+    "bio": "Senior engineer with 15+ years in various engineering disciplines and tech leadership",
+    "fees": 65,
+    "currency": "USD",
+    "experience": "16 years",
+    "rating": 4.9,
+    "reviews": 145,
+    "avatar": "👨‍🔧",
+    "certifications": ["Mechanical Engineer", "Tech Lead", "Career Mentor"],
+    "availability": "Wed-Sat, 1pm-8pm",
+    "languages": ["English", "Portuguese"],
+    "testimonials": [
+      "Perfect mentor for engineering career growth",
+      "Helped me transition to leadership role"
+    ]
+  }
+]
