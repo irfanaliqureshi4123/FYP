@@ -15,6 +15,8 @@ import Roadmap from './pages/Roadmap';
 // Lazy load route components for code splitting
 const Careers = lazy(() => import('./pages/Careers'));
 const CareerCounselling = lazy(() => import('./pages/CareerCounselling'));
+const BookingPage = lazy(() => import('./pages/BookingPage'));
+const CounsellorChat = lazy(() => import('./pages/CounsellorChat'));
 const AIChat = lazy(() => import('./pages/AIChat'));
 const AITools = lazy(() => import('./pages/AITools'));
 const DigitalWellbeing = lazy(() => import('./pages/DigitalWellbeing'));
@@ -61,6 +63,8 @@ function App() {
                 <Route path="resources" element={<Suspense fallback={<PageLoader />}><Resources /></Suspense>} />
                 <Route path="careers" element={<Suspense fallback={<PageLoader />}><Careers /></Suspense>} />
                 <Route path="counselling" element={<Suspense fallback={<PageLoader />}><CareerCounselling /></Suspense>} />
+                <Route path="counselling/booking/:counsellorId" element={<Suspense fallback={<PageLoader />}><BookingPage /></Suspense>} />
+                <Route path="counselling/chat/:counsellorId" element={<Suspense fallback={<PageLoader />}><CounsellorChat /></Suspense>} />
                 <Route path="profile/:username" element={<Suspense fallback={<PageLoader />}><Profile /></Suspense>} />
                 <Route path="profile/:username/edit" element={<Suspense fallback={<PageLoader />}><EditProfile /></Suspense>} />
                 <Route path="messages" element={<Suspense fallback={<PageLoader />}><Messages /></Suspense>} />

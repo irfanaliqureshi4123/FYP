@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { ArrowLeft, FileText, Briefcase, Award, PenTool, Zap, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Toast from '../components/common/Toast';
+import ComingSoonModal from '../components/modals/ComingSoonModal';
 
 const AITools = () => {
     const navigate = useNavigate();
     const [toast, setToast] = useState(null);
     const [activeTab, setActiveTab] = useState(null);
+    const [showComingSoonModal, setShowComingSoonModal] = useState(false);
+    const [selectedToolName, setSelectedToolName] = useState('');
 
     const tools = [
         {
@@ -52,12 +55,12 @@ const AITools = () => {
     ];
 
     const handleToolClick = (toolId) => {
-        setToast({
-            type: 'info',
-            message: `${tools.find(t => t.id === toolId).title} is loading...`
-        });
-        setTimeout(() => setToast(null), 2000);
         setActiveTab(toolId);
+    };
+
+    const handleStartBuilding = (toolName) => {
+        setSelectedToolName(toolName);
+        setShowComingSoonModal(true);
     };
 
     const resumeBuilderPreview = (
@@ -89,7 +92,7 @@ const AITools = () => {
                         </div>
                     </div>
                 </div>
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base">
+                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base" onClick={() => handleStartBuilding('Resume Builder')}>
                     Start Building
                 </button>
             </div>
@@ -118,7 +121,7 @@ const AITools = () => {
                         </li>
                     </ul>
                 </div>
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base">
+                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base" onClick={() => handleStartBuilding('Interview Prep')}>
                     Start Mock Interview
                 </button>
             </div>
@@ -142,7 +145,7 @@ const AITools = () => {
                         ))}
                     </div>
                 </div>
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base">
+                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base" onClick={() => handleStartBuilding('Skill Assessor')}>
                     Start Assessment
                 </button>
             </div>
@@ -163,7 +166,7 @@ const AITools = () => {
                         <input type="text" placeholder="e.g., Tech Company Inc." className="w-full px-3 py-2 bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500 rounded-lg text-gray-900 dark:text-white text-sm" />
                     </div>
                 </div>
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base">
+                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base" onClick={() => handleStartBuilding('Cover Letter Generator')}>
                     Generate Letter
                 </button>
             </div>
@@ -188,7 +191,7 @@ const AITools = () => {
                     </div>
                     <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Innovation Labs • $90k-$120k</p>
                 </div>
-                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base">
+                <button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-lg transition-colors text-sm sm:text-base" onClick={() => handleStartBuilding('Job Match Finder')}>
                     Find More Jobs
                 </button>
             </div>
@@ -302,6 +305,13 @@ const AITools = () => {
             {toast && (
                 <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />
             )}
+
+            {/* Coming Soon Modal */}
+            <ComingSoonModal
+                isOpen={showComingSoonModal}
+                onClose={() => setShowComingSoonModal(false)}
+                toolName={selectedToolName.toLowerCase().replace(' ', ' ')}
+            />
         </div>
     );
 };
