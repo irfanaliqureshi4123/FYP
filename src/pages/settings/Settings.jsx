@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Bell, Lock, Palette, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Bell, Lock, Palette, Eye, EyeOff, AlertCircle, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
 import Button from '../../components/common/Button';
 import Modal from '../../components/common/Modal';
 import Toast from '../../components/common/Toast';
@@ -15,6 +16,7 @@ import Toast from '../../components/common/Toast';
 const Settings = () => {
     const navigate = useNavigate();
     const { theme, toggleTheme } = useTheme();
+    const { currentUser, setUserRole } = useAuth();
 
     // Notification Preferences State
     const [notifications, setNotifications] = useState({
@@ -54,6 +56,48 @@ const Settings = () => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastType, setToastType] = useState('success');
+
+    // Role Switch Handler
+    const handleRoleSwitch = (role) => {
+        // Check if user can switch roles based on approval status
+        const isMentorApproved = currentUser?.mentorStatus === 'approved';
+        const isCounselorApproved = currentUser?.counsellorStatus === 'approved';
+        
+        // If counselor is approved, cannot switch roles
+        if (isCounselorApproved) {
+            setToastMessage('You cannot switch roles once approved as Career Counselor');
+            setToastType('error');
+            setShowToast(true);
+            return;
+        }
+        
+        // If mentor is approved and trying to switch to student, prevent it
+        if (isMentorApproved && role === 'student') {
+            setToastMessage('You cannot switch back to Student once approved as Mentor');
+            setToastType('error');
+            setShowToast(true);
+            return;
+        }
+        
+        setUserRole(role);
+        const roleNames = {
+            'student': 'Student',
+            'career_counselor': 'Career Counselor',
+            'mentor': 'Mentor'
+        };
+        setToastMessage(`Role switched to ${roleNames[role]}!`);
+        setToastType('success');
+        setShowToast(true);
+        
+        // Navigate to appropriate dashboard
+        if (role === 'student') {
+            setTimeout(() => navigate('/'), 1500);
+        } else if (role === 'career_counselor') {
+            setTimeout(() => navigate('/counselor/dashboard'), 1500);
+        } else if (role === 'mentor') {
+            setTimeout(() => navigate('/mentor/dashboard'), 1500);
+        }
+    };
 
     const notificationPreferences = [
         { key: 'likes', label: 'Likes and reactions', description: 'When someone likes your post' },
@@ -226,6 +270,54 @@ const Settings = () => {
                         onClick={() => navigate('/terms-of-service')}
                     >
                         📄 Terms of Service
+                    </Button>
+                </div>
+            </div>
+
+            {/* Role Management */}
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                    <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    <h2 className="text-xl font-bold text-blue-900 dark:text-blue-300">Role Management</h2>
+                </div>
+                <p className="text-sm text-blue-800 dark:text-blue-300 mb-4">
+                    Current Role: <span className="font-semibold">
+                        {currentUser?.userRole === 'career_counselor' ? 'Career Counselor' : currentUser?.userRole === 'mentor' ? 'Mentor' : 'Student'}
+                    </span>
+                    {currentUser?.counsellorStatus === 'approved' && (
+                        <span className="block text-xs text-red-600 dark:text-red-400 mt-2">⚠️ Role switching disabled - approved as Career Counselor</span>
+                    )}
+                    {currentUser?.mentorStatus === 'approved' && currentUser?.counsellorStatus !== 'approved' && (
+                        <span className="block text-xs text-orange-600 dark:text-orange-400 mt-2">⚠️ Cannot switch back to Student - approved as Mentor</span>
+                    )}
+                </p>
+                <div className="space-y-3">
+                    <Button
+                        variant={currentUser?.userRole === 'student' ? 'primary' : 'outline'}
+                        fullWidth
+                        onClick={() => handleRoleSwitch('student')}
+                        disabled={currentUser?.mentorStatus === 'approved' || currentUser?.counsellorStatus === 'approved'}
+                        className="justify-start"
+                    >
+                        👨‍🎓 Switch to Student
+                    </Button>
+                    <Button
+                        variant={currentUser?.userRole === 'mentor' ? 'primary' : 'outline'}
+                        fullWidth
+                        onClick={() => handleRoleSwitch('mentor')}
+                        disabled={currentUser?.counsellorStatus === 'approved'}
+                        className="justify-start"
+                    >
+                        🎓 Switch to Mentor
+                    </Button>
+                    <Button
+                        variant={currentUser?.userRole === 'career_counselor' ? 'primary' : 'outline'}
+                        fullWidth
+                        onClick={() => handleRoleSwitch('career_counselor')}
+                        disabled={currentUser?.counsellorStatus === 'approved'}
+                        className="justify-start"
+                    >
+                        💼 Switch to Career Counselor
                     </Button>
                 </div>
             </div>

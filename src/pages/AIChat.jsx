@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Send, Loader, Mic, Paperclip } from 'lucide-react';
+import { ArrowLeft, Send, Loader, Mic, Paperclip, ThumbsUp, ThumbsDown, Copy, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const AIChat = () => {
@@ -9,7 +9,9 @@ const AIChat = () => {
             id: 1,
             type: 'bot',
             text: 'Hello! I\'m your AI assistant. I\'m here to help you with career guidance, skill development, university information, and much more. What would you like to know about today?',
-            timestamp: new Date()
+            timestamp: new Date(),
+            liked: null,
+            copied: false
         }
     ]);
     const [inputValue, setInputValue] = useState('');
@@ -92,11 +94,37 @@ const AIChat = () => {
                 id: messages.length + 2,
                 type: 'bot',
                 text: generateAIResponse(inputValue),
-                timestamp: new Date()
+                timestamp: new Date(),
+                liked: null,
+                copied: false
             };
             setMessages(prev => [...prev, aiResponse]);
             setIsLoading(false);
         }, 800);
+    };
+
+    const handleLike = (messageId) => {
+        setMessages(prev => prev.map(msg => 
+            msg.id === messageId ? { ...msg, liked: msg.liked === 'like' ? null : 'like' } : msg
+        ));
+    };
+
+    const handleDislike = (messageId) => {
+        setMessages(prev => prev.map(msg => 
+            msg.id === messageId ? { ...msg, liked: msg.liked === 'dislike' ? null : 'dislike' } : msg
+        ));
+    };
+
+    const handleCopy = (messageId, text) => {
+        navigator.clipboard.writeText(text);
+        setMessages(prev => prev.map(msg => 
+            msg.id === messageId ? { ...msg, copied: true } : msg
+        ));
+        setTimeout(() => {
+            setMessages(prev => prev.map(msg => 
+                msg.id === messageId ? { ...msg, copied: false } : msg
+            ));
+        }, 2000);
     };
 
     const suggestedQuestions = [
@@ -135,21 +163,76 @@ const AIChat = () => {
                         key={message.id}
                         className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                     >
-                        <div
-                            className={`max-w-xs sm:max-w-md lg:max-w-lg px-4 py-3 rounded-lg ${
-                                message.type === 'user'
-                                    ? 'bg-primary-600 text-white rounded-br-none'
-                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-bl-none'
-                            }`}
-                        >
-                            <p className="text-sm sm:text-base">{message.text}</p>
-                            <p className={`text-xs mt-1 ${
-                                message.type === 'user'
-                                    ? 'text-primary-100'
-                                    : 'text-gray-500 dark:text-gray-400'
-                            }`}>
-                                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </p>
+                        <div className="flex flex-col gap-2 max-w-xs sm:max-w-md lg:max-w-lg">
+                            <div
+                                className={`px-4 py-3 rounded-lg ${
+                                    message.type === 'user'
+                                        ? 'bg-primary-600 text-white rounded-br-none'
+                                        : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-bl-none'
+                                }`}
+                            >
+                                <p className="text-sm sm:text-base">{message.text}</p>
+                                <p className={`text-xs mt-1 ${
+                                    message.type === 'user'
+                                        ? 'text-primary-100'
+                                        : 'text-gray-500 dark:text-gray-400'
+                                }`}>
+                                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </p>
+                            </div>
+
+                            {/* Action Buttons - Only for Bot Messages */}
+                            {message.type === 'bot' && (
+                                <div className="flex items-center gap-2 px-1">
+                                    <button
+                                        onClick={() => handleLike(message.id)}
+                                        className={`p-2 rounded-lg transition-colors flex items-center gap-1 text-xs sm:text-sm ${
+                                            message.liked === 'like'
+                                                ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400'
+                                                : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400'
+                                        }`}
+                                        title="This response was helpful"
+                                    >
+                                        <ThumbsUp className="w-4 h-4" />
+                                        <span className="hidden xs:inline">Helpful</span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleDislike(message.id)}
+                                        className={`p-2 rounded-lg transition-colors flex items-center gap-1 text-xs sm:text-sm ${
+                                            message.liked === 'dislike'
+                                                ? 'bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-400'
+                                                : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400'
+                                        }`}
+                                        title="This response was not helpful"
+                                    >
+                                        <ThumbsDown className="w-4 h-4" />
+                                        <span className="hidden xs:inline">Not Helpful</span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleCopy(message.id, message.text)}
+                                        className={`p-2 rounded-lg transition-colors flex items-center gap-1 text-xs sm:text-sm ${
+                                            message.copied
+                                                ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                                                : 'hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400'
+                                        }`}
+                                        title="Copy response"
+                                    >
+                                        {message.copied ? (
+                                            <>
+                                                <Check className="w-4 h-4" />
+                                                <span className="hidden xs:inline">Copied</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Copy className="w-4 h-4" />
+                                                <span className="hidden xs:inline">Copy</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}

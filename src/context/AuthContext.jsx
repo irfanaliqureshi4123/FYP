@@ -11,13 +11,34 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Simulate getting current user from localStorage or API
         const user = usersData[0]; // Sarah Chen as default user
-        setCurrentUser(user);
+        // Initialize with counsellor status from localStorage or default
+        const storedUser = localStorage.getItem('user');
+        const userData = storedUser ? JSON.parse(storedUser) : user;
+        if (!userData.counsellorStatus) {
+            userData.counsellorStatus = 'none'; // 'none', 'pending', 'approved', 'rejected'
+        }
+        if (!userData.mentorStatus) {
+            userData.mentorStatus = 'none'; // 'none', 'pending', 'approved', 'rejected'
+        }
+        if (!userData.counsellorData) {
+            userData.counsellorData = null; // Stores full counsellor registration data
+        }
+        // Set default role if not present
+        if (!userData.userRole) {
+            userData.userRole = 'student'; // 'student', 'career_counselor', 'mentor', 'admin'
+        }
+        setCurrentUser(userData);
     }, []);
 
     const login = (user) => {
-        setCurrentUser(user);
+        const userData = { ...user };
+        if (!userData.counsellorStatus) userData.counsellorStatus = 'none';
+        if (!userData.mentorStatus) userData.mentorStatus = 'none';
+        if (!userData.counsellorData) userData.counsellorData = null;
+        if (!userData.userRole) userData.userRole = 'student';
+        setCurrentUser(userData);
         setIsAuthenticated(true);
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(userData));
     };
 
     const logout = () => {
@@ -26,11 +47,32 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('user');
     };
 
+    const updateCounsellorStatus = (status, counsellorData = null) => {
+        const updatedUser = {
+            ...currentUser,
+            counsellorStatus: status, // 'pending', 'approved', 'rejected'
+            counsellorData: counsellorData
+        };
+        setCurrentUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+    };
+
+    const setUserRole = (role) => {
+        const updatedUser = {
+            ...currentUser,
+            userRole: role // 'student', 'career_counselor', 'mentor', 'admin'
+        };
+        setCurrentUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+    };
+
     const value = {
         currentUser,
         isAuthenticated,
         login,
         logout,
+        updateCounsellorStatus,
+        setUserRole,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

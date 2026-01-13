@@ -23,7 +23,7 @@ const Explore = () => {
         { id: 'ai-chat', label: 'AI Chat', icon: MessageCircle, path: '/ai-chat', description: 'AI chatbot & recommendations' },
         { id: 'ai-tools', label: 'AI Tools', icon: Sparkles, path: '/ai-tools', description: 'Resume building & interview prep' },
         { id: 'wellbeing', label: 'Wellbeing', icon: Heart, path: '/wellbeing', description: 'Digital wellness & balance' },
-        { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmap', description: 'Personalized career paths' },
+        { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmaps', description: 'Personalized career paths' },
         { id: 'resources', label: 'Resources', icon: BookOpen, path: '/resources', description: 'Free and paid learning materials' },
     ];
 

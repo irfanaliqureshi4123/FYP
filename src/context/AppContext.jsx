@@ -11,6 +11,8 @@ export const AppProvider = ({ children }) => {
     const [followingUsers, setFollowingUsers] = useState([2, 4]); // Following Alex and Emily
     const [mutedUsers, setMutedUsers] = useState([]); // Track muted users
     const [notifications, setNotifications] = useState(notificationsData);
+    const [counsellorApplications, setCounsellorApplications] = useState([]);
+    const [mentorApplications, setMentorApplications] = useState([]);
 
     useEffect(() => {
         // Load saved state from localStorage
@@ -18,11 +20,15 @@ export const AppProvider = ({ children }) => {
         const savedItems = JSON.parse(localStorage.getItem('savedPosts') || '[]');
         const following = JSON.parse(localStorage.getItem('followingUsers') || '[2, 4]');
         const muted = JSON.parse(localStorage.getItem('mutedUsers') || '[]');
+        const applications = JSON.parse(localStorage.getItem('counsellorApplications') || '[]');
+        const mentorApps = JSON.parse(localStorage.getItem('mentorApplications') || '[]');
 
         setLikedPosts(savedLikes);
         setSavedPosts(savedItems);
         setFollowingUsers(following);
         setMutedUsers(muted);
+        setCounsellorApplications(applications);
+        setMentorApplications(mentorApps);
     }, []);
 
     const toggleLike = (postId) => {
@@ -160,6 +166,49 @@ export const AppProvider = ({ children }) => {
         );
     };
 
+    const addCounsellorApplication = (applicationData) => {
+        const newApplication = {
+            id: Date.now(),
+            ...applicationData,
+            status: 'pending',
+            submittedAt: new Date().toISOString().split('T')[0]
+        };
+        const updatedApplications = [...counsellorApplications, newApplication];
+        setCounsellorApplications(updatedApplications);
+        localStorage.setItem('counsellorApplications', JSON.stringify(updatedApplications));
+        return newApplication;
+    };
+
+    const updateApplicationStatus = (applicationId, newStatus) => {
+        const updatedApplications = counsellorApplications.map(app =>
+            app.id === applicationId ? { ...app, status: newStatus } : app
+        );
+        setCounsellorApplications(updatedApplications);
+        localStorage.setItem('counsellorApplications', JSON.stringify(updatedApplications));
+    };
+
+    // NEW MENTOR APPLICATION FUNCTIONS
+    const addMentorApplication = (applicationData) => {
+        const newApplication = {
+            id: Date.now(),
+            ...applicationData,
+            status: 'pending',
+            submittedAt: new Date().toISOString().split('T')[0]
+        };
+        const updatedApplications = [...mentorApplications, newApplication];
+        setMentorApplications(updatedApplications);
+        localStorage.setItem('mentorApplications', JSON.stringify(updatedApplications));
+        return newApplication;
+    };
+
+    const updateMentorApplicationStatus = (applicationId, newStatus) => {
+        const updatedApplications = mentorApplications.map(app =>
+            app.id === applicationId ? { ...app, status: newStatus } : app
+        );
+        setMentorApplications(updatedApplications);
+        localStorage.setItem('mentorApplications', JSON.stringify(updatedApplications));
+    };
+
     const votePoll = (postId, optionIndex) => {
         setPosts(currentPosts =>
             currentPosts.map(post =>
@@ -203,6 +252,8 @@ export const AppProvider = ({ children }) => {
         followingUsers,
         mutedUsers,
         notifications,
+        counsellorApplications,
+        mentorApplications,
         toggleLike,
         toggleSave,
         toggleFollow,
@@ -216,6 +267,10 @@ export const AppProvider = ({ children }) => {
         updatePostVisibility,
         toggleCommentsStatus,
         votePoll,
+        addCounsellorApplication,
+        updateApplicationStatus,
+        addMentorApplication,
+        updateMentorApplicationStatus,
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

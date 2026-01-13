@@ -2,6 +2,7 @@
     {
         "id": 1,
         "username": "sarahchen",
+        "email": "sarah@example.com",
         "name": "Sarah Chen",
         "title": "Senior Software Engineer @ Google",
         "avatar": "https://i.pravatar.cc/150?img=5",
@@ -9,6 +10,8 @@
         "bio": "Passionate about building scalable systems and mentoring aspiring developers. 💻 Open to career discussions!",
         "location": "San Francisco, CA",
         "website": "https://sarahchen.dev",
+        "role": "admin",
+        "userRole": "admin",
         "skills": [
             "React",
             "Node.js",
@@ -190,5 +193,57 @@
             "Improve healthcare access"
         ],
         "achievements": []
+    },
+    {
+        "id": 7,
+        "username": "drsarahjohnson",
+        "email": "sarah.johnson@counsellor.com",
+        "name": "Dr. Sarah Johnson",
+        "title": "Senior Career Counsellor",
+        "avatar": "https://i.pravatar.cc/150?img=5",
+        "coverImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1200&h=300&fit=crop",
+        "bio": "Experienced career counsellor with 15+ years in tech industry guidance. Helping professionals transition and grow.",
+        "location": "San Francisco, CA",
+        "website": "https://sarahjohnson-counselling.com",
+        "role": "counsellor",
+        "counsellorStatus": "approved",
+        "skills": [
+            "Career Counselling",
+            "Tech Industry",
+            "Resume Writing",
+            "Interview Prep",
+            "Career Strategy"
+        ],
+        "interests": [
+            "Career Development",
+            "Tech",
+            "Mentoring"
+        ],
+        "followers": 2340,
+        "following": 145,
+        "posts": 67,
+        "verified": true,
+        "online": true,
+        "careerGoals": [
+            "Help 1000+ professionals",
+            "Write career guidance book",
+            "Build counselling platform"
+        ],
+        "achievements": [
+            {
+                "id": 1,
+                "title": "Career Counselling Certification",
+                "description": "CCDF Certified Professional",
+                "icon": "🎓",
+                "date": "2015-06"
+            },
+            {
+                "id": 2,
+                "title": "500+ Happy Clients",
+                "description": "Helped 500+ professionals advance careers",
+                "icon": "⭐",
+                "date": "2023-12"
+            }
+        ]
     }
 ]

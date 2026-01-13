@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import RightSidebar from './RightSidebar';
 import CareerTipOfTheDay from '../widgets/CareerTipOfTheDay';
+import { useAuth } from '../../context/AuthContext';
 
 /**
  * Main Layout Component
@@ -13,6 +14,15 @@ import CareerTipOfTheDay from '../widgets/CareerTipOfTheDay';
 const MainLayout = () => {
     const sidebarRef = useRef();
     const [showCareerTip, setShowCareerTip] = useState(false);
+    const location = useLocation();
+    const { currentUser } = useAuth();
+
+    // Hide RightSidebar for career counselors and mentors on all pages
+    // Both roles get a clean, focused interface
+    const userIsCounselor = currentUser?.userRole === 'career_counselor' || 
+                            (currentUser?.counsellorStatus && currentUser?.counsellorStatus !== 'none');
+    const userIsMentor = currentUser?.userRole === 'mentor';
+    const shouldHideRightSidebar = userIsCounselor || userIsMentor;
 
     // Show career tip on mount for small devices
     useEffect(() => {
@@ -50,10 +60,12 @@ const MainLayout = () => {
                             </div>
                         </main>
 
-                        {/* Right Sidebar - Responsive on all devices */}
-                        <div className="sticky top-16 h-auto lg:h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin px-3 sm:px-4 lg:px-4 xl:px-6 py-3 sm:py-4 lg:py-6 w-full lg:w-80 xl:w-96 border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700">
-                            <RightSidebar />
-                        </div>
+                        {/* Right Sidebar - Hidden for Counselor Dashboard, Responsive on all devices */}
+                        {!shouldHideRightSidebar && (
+                            <div className="sticky top-16 h-auto lg:h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin px-3 sm:px-4 lg:px-4 xl:px-6 py-3 sm:py-4 lg:py-6 w-full lg:w-80 xl:w-96 border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700">
+                                <RightSidebar />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

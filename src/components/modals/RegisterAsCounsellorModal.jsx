@@ -117,16 +117,14 @@ const RegisterAsCounsellorModal = ({ isOpen, onClose, onSubmit }) => {
             return;
         }
 
-        // Submit form
+        // Submit form to parent component
         onSubmit(formData);
-        setToast({
-            type: 'success',
-            message: 'Your counsellor registration has been submitted successfully!'
-        });
+
+        // Close modal
+        onClose();
+
+        // Reset form
         setTimeout(() => {
-            setToast(null);
-            onClose();
-            // Reset form
             setFormData({
                 name: '',
                 email: '',
@@ -143,7 +141,7 @@ const RegisterAsCounsellorModal = ({ isOpen, onClose, onSubmit }) => {
                 avatarPreview: null
             });
             setErrors({});
-        }, 2000);
+        }, 300);
     };
 
     if (!isOpen) return null;

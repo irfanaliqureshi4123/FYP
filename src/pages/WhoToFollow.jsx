@@ -6,16 +6,21 @@ import usersData from '../data/users.json';
 import Avatar from '../components/common/Avatar';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
+import RegisterAsMentorModal from '../components/modals/RegisterAsMentorModal';
+import StickPopup from '../components/common/StickPopup';
 
 /**
  * Who to Follow Page
- * Display all users with follow/unfollow functionality
+ * Display all users with follow/unfollow functionality and mentor registration
  */
 const WhoToFollow = () => {
     const navigate = useNavigate();
-    const { followingUsers, toggleFollow } = useApp();
+    const { followingUsers, toggleFollow, addMentorApplication } = useApp();
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortBy, setSortBy] = useState('all'); // all, following, notFollowing
+    const [sortBy, setSortBy] = useState('all');
+    const [showMentorModal, setShowMentorModal] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [mentorRegistrationData, setMentorRegistrationData] = useState({ name: '', email: '' });
 
     // Filter users based on search and sort
     const filteredUsers = usersData
@@ -42,20 +47,47 @@ const WhoToFollow = () => {
             return a.name.localeCompare(b.name);
         });
 
+    const handleMentorSubmit = (formData) => {
+        const processedData = { ...formData };
+        
+        if (formData.avatar && formData.avatarPreview) {
+            processedData.avatar = formData.avatarPreview;
+        }
+        
+        addMentorApplication(processedData);
+        
+        setMentorRegistrationData({
+            name: formData.name,
+            email: formData.email
+        });
+        
+        setShowSuccessPopup(true);
+        setShowMentorModal(false);
+    };
+
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900">
             {/* Header */}
             <div className="sticky top-0 z-10 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <div className="max-w-2xl mx-auto px-4 py-4">
-                    <div className="flex items-center gap-3 mb-4">
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                            aria-label="Go back"
+                    <div className="flex items-center justify-between gap-2 xs:gap-3 mb-4 flex-wrap">
+                        <div className="flex items-center gap-2 xs:gap-3">
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors flex-shrink-0"
+                                aria-label="Go back"
+                            >
+                                <ArrowLeft className="w-4 h-4 xs:w-5 xs:h-5 text-gray-900 dark:text-white" />
+                            </button>
+                            <h1 className="text-xl xs:text-2xl font-bold text-gray-900 dark:text-white">Who to Follow</h1>
+                        </div>
+                        <Button 
+                            onClick={() => setShowMentorModal(true)}
+                            size="sm"
+                            className="text-xs xs:text-sm whitespace-nowrap"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-900 dark:text-white" />
-                        </button>
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Who to Follow</h1>
+                            Register as Mentor
+                        </Button>
                     </div>
 
                     {/* Search and Filter */}
@@ -177,6 +209,23 @@ const WhoToFollow = () => {
                     </div>
                 )}
             </div>
+
+            {/* Register as Mentor Modal */}
+            <RegisterAsMentorModal
+                isOpen={showMentorModal}
+                onClose={() => setShowMentorModal(false)}
+                onSubmit={handleMentorSubmit}
+            />
+
+            {/* Success Popup */}
+            {showSuccessPopup && (
+                <StickPopup
+                    title="Mentor Registration Submitted!"
+                    message={`Thank you, ${mentorRegistrationData.name}! Your mentor application has been submitted successfully. We will review it within 2-3 business days and send you an email at ${mentorRegistrationData.email} with the outcome.`}
+                    type="success"
+                    onClose={() => setShowSuccessPopup(false)}
+                />
+            )}
         </div>
     );
 };

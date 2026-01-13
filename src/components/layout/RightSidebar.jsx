@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Users, Target, BookOpen, Sparkles, Share2, Copy } from 'lucide-react';
+import { TrendingUp, Users, BookOpen, Share2, Copy } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import usersData from '../../data/users.json';
 import Avatar from '../common/Avatar';
@@ -68,48 +68,6 @@ const RightSidebar = () => {
     return (
         <>
             <aside className="w-full lg:w-80 space-y-4 lg:space-y-6">
-                {/* Career Assistant Widget */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 lg:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-                    <div className="flex items-center gap-2 mb-3 lg:mb-4">
-                        <Sparkles className="w-4 lg:w-5 h-4 lg:h-5 text-primary-600" />
-                        <h3 className="font-bold text-sm lg:text-base text-gray-900 dark:text-white">Career Assistant</h3>
-                    </div>
-
-                    <div className="space-y-3 lg:space-y-4">
-                        <div>
-                            <p className="text-xs lg:text-sm text-gray-600 dark:text-gray-400 mb-1 lg:mb-2">Recommended Role</p>
-                            <div className="flex items-center justify-between">
-                                <span className="font-semibold text-sm lg:text-base text-gray-900 dark:text-white">Frontend Developer</span>
-                                <Target className="w-4 h-4 text-primary-600" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="flex items-center justify-between mb-1 lg:mb-2">
-                                <span className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">Match</span>
-                                <span className="text-xs lg:text-sm font-semibold text-primary-600">85%</span>
-                            </div>
-                            <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                                <div className="h-full bg-gradient-to-r from-primary-600 to-accent-600" style={{ width: '85%' }}></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p className="text-xs lg:text-sm text-gray-600 dark:text-gray-400 mb-2">Skills to learn</p>
-                            <div className="flex flex-wrap gap-1 lg:gap-2">
-                                <Badge variant="primary" size="sm">React</Badge>
-                                <Badge variant="primary" size="sm">TypeScript</Badge>
-                                <Badge variant="primary" size="sm">Next.js</Badge>
-                            </div>
-                        </div>
-
-                        <Button variant="outline" size="sm" fullWidth className="text-xs lg:text-sm">
-                            <BookOpen className="w-3 lg:w-4 h-3 lg:h-4" />
-                            View Learning Path
-                        </Button>
-                    </div>
-                </div>
-
                 {/* Who to Follow Widget */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 lg:p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
                     <div className="flex items-center justify-between mb-3 lg:mb-4">

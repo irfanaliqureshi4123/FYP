@@ -3,269 +3,154 @@
     "id": 1,
     "title": "Full Stack Web Developer",
     "description": "Master both frontend and backend web development",
-    "duration": "6 months",
     "difficulty": "Intermediate",
-    "salary": "$80,000 - $150,000",
     "pathways": [
-      {
-        "id": "fs-1",
-        "name": "Frontend Fundamentals",
-        "duration": "8 weeks",
-        "skills": ["HTML", "CSS", "JavaScript", "React"],
-        "courses": 5,
-        "completed": 3,
-        "topics": [
-          { "name": "HTML & CSS Basics", "completed": true },
-          { "name": "JavaScript Fundamentals", "completed": true },
-          { "name": "React.js", "completed": true },
-          { "name": "State Management (Redux)", "completed": false },
-          { "name": "Advanced React Patterns", "completed": false }
-        ]
-      },
-      {
-        "id": "fs-2",
-        "name": "Backend Development",
-        "duration": "10 weeks",
-        "skills": ["Node.js", "Express", "Databases", "APIs"],
-        "courses": 5,
-        "completed": 0,
-        "topics": [
-          { "name": "Node.js & Express Basics", "completed": false },
-          { "name": "Database Design (SQL)", "completed": false },
-          { "name": "RESTful APIs", "completed": false },
-          { "name": "Authentication & Security", "completed": false },
-          { "name": "Deployment & DevOps", "completed": false }
-        ]
-      },
-      {
-        "id": "fs-3",
-        "name": "Full Stack Integration",
-        "duration": "6 weeks",
-        "skills": ["Testing", "CI/CD", "Docker", "AWS"],
-        "courses": 4,
-        "completed": 0,
-        "topics": [
-          { "name": "Testing & TDD", "completed": false },
-          { "name": "Docker & Containerization", "completed": false },
-          { "name": "CI/CD Pipelines", "completed": false },
-          { "name": "Cloud Deployment (AWS/Heroku)", "completed": false }
-        ]
-      }
+      { "id": "fs-1", "name": "Frontend Fundamentals" },
+      { "id": "fs-2", "name": "Backend Development" },
+      { "id": "fs-3", "name": "Full Stack Integration" }
     ]
   },
   {
     "id": 2,
     "title": "Data Scientist",
-    "description": "Analyze data and build predictive models",
-    "duration": "5 months",
+    "description": "Analyze data and build predictive models using Python and machine learning",
     "difficulty": "Advanced",
-    "salary": "$100,000 - $180,000",
     "pathways": [
-      {
-        "id": "ds-1",
-        "name": "Python & Statistics",
-        "duration": "6 weeks",
-        "skills": ["Python", "Statistics", "Data Analysis", "Pandas"],
-        "courses": 4,
-        "completed": 0,
-        "topics": [
-          { "name": "Python Programming", "completed": false },
-          { "name": "Statistics & Probability", "completed": false },
-          { "name": "Data Manipulation (Pandas)", "completed": false },
-          { "name": "Data Visualization", "completed": false }
-        ]
-      },
-      {
-        "id": "ds-2",
-        "name": "Machine Learning",
-        "duration": "10 weeks",
-        "skills": ["ML Algorithms", "Scikit-learn", "Feature Engineering", "Model Evaluation"],
-        "courses": 6,
-        "completed": 0,
-        "topics": [
-          { "name": "ML Fundamentals", "completed": false },
-          { "name": "Supervised Learning", "completed": false },
-          { "name": "Unsupervised Learning", "completed": false },
-          { "name": "Feature Engineering", "completed": false },
-          { "name": "Model Evaluation & Tuning", "completed": false },
-          { "name": "Real-world Projects", "completed": false }
-        ]
-      },
-      {
-        "id": "ds-3",
-        "name": "Advanced & Deployment",
-        "duration": "8 weeks",
-        "skills": ["Deep Learning", "NLP", "Model Deployment", "MLOps"],
-        "courses": 5,
-        "completed": 0,
-        "topics": [
-          { "name": "Deep Learning & Neural Networks", "completed": false },
-          { "name": "Natural Language Processing", "completed": false },
-          { "name": "Time Series Analysis", "completed": false },
-          { "name": "Model Deployment", "completed": false },
-          { "name": "MLOps Basics", "completed": false }
-        ]
-      }
+      { "id": "ds-1", "name": "Python & Statistics" },
+      { "id": "ds-2", "name": "Machine Learning" },
+      { "id": "ds-3", "name": "Advanced & Deployment" }
     ]
   },
   {
     "id": 3,
-    "title": "Product Manager",
-    "description": "Lead product strategy and development",
-    "duration": "4 months",
-    "difficulty": "Intermediate",
-    "salary": "$120,000 - $200,000",
+    "title": "Frontend Developer",
+    "description": "Build responsive and interactive user interfaces with modern frameworks",
+    "difficulty": "Beginner",
     "pathways": [
-      {
-        "id": "pm-1",
-        "name": "PM Fundamentals",
-        "duration": "6 weeks",
-        "skills": ["Product Strategy", "User Research", "Analytics", "Market Analysis"],
-        "courses": 4,
-        "completed": 1,
-        "topics": [
-          { "name": "What is Product Management", "completed": true },
-          { "name": "User Research & Discovery", "completed": false },
-          { "name": "Product Strategy", "completed": false },
-          { "name": "Analytics & Metrics", "completed": false }
-        ]
-      },
-      {
-        "id": "pm-2",
-        "name": "Product Execution",
-        "duration": "8 weeks",
-        "skills": ["Roadmapping", "Prioritization", "Stakeholder Management", "Agile"],
-        "courses": 5,
-        "completed": 0,
-        "topics": [
-          { "name": "Building Product Roadmaps", "completed": false },
-          { "name": "Prioritization Frameworks", "completed": false },
-          { "name": "Agile & Scrum", "completed": false },
-          { "name": "Stakeholder Management", "completed": false },
-          { "name": "Cross-functional Leadership", "completed": false }
-        ]
-      },
-      {
-        "id": "pm-3",
-        "name": "Advanced PM Skills",
-        "duration": "6 weeks",
-        "skills": ["Data-driven Decision Making", "Growth", "Pricing", "Leadership"],
-        "courses": 4,
-        "completed": 0,
-        "topics": [
-          { "name": "Data-Driven Decision Making", "completed": false },
-          { "name": "Growth & Acquisition Strategies", "completed": false },
-          { "name": "Pricing & Monetization", "completed": false },
-          { "name": "PM Leadership", "completed": false }
-        ]
-      }
+      { "id": "fe-1", "name": "HTML & CSS Basics" },
+      { "id": "fe-2", "name": "JavaScript Fundamentals" },
+      { "id": "fe-3", "name": "React & Modern Frameworks" }
     ]
   },
   {
     "id": 4,
-    "title": "UX/UI Designer",
-    "description": "Create beautiful and usable digital experiences",
-    "duration": "4 months",
-    "difficulty": "Beginner",
-    "salary": "$70,000 - $130,000",
+    "title": "Backend Developer",
+    "description": "Create robust server-side applications and APIs",
+    "difficulty": "Intermediate",
     "pathways": [
-      {
-        "id": "ux-1",
-        "name": "Design Fundamentals",
-        "duration": "6 weeks",
-        "skills": ["Design Principles", "Color Theory", "Typography", "Composition"],
-        "courses": 4,
-        "completed": 2,
-        "topics": [
-          { "name": "Design Principles", "completed": true },
-          { "name": "Color & Typography", "completed": true },
-          { "name": "Layout & Composition", "completed": false },
-          { "name": "Visual Hierarchy", "completed": false }
-        ]
-      },
-      {
-        "id": "ux-2",
-        "name": "UX Research & Design",
-        "duration": "8 weeks",
-        "skills": ["User Research", "Wireframing", "Prototyping", "Usability Testing"],
-        "courses": 5,
-        "completed": 0,
-        "topics": [
-          { "name": "User Research Methods", "completed": false },
-          { "name": "Wireframing & Sketching", "completed": false },
-          { "name": "Prototyping", "completed": false },
-          { "name": "Usability Testing", "completed": false },
-          { "name": "Design Thinking", "completed": false }
-        ]
-      },
-      {
-        "id": "ux-3",
-        "name": "Tools & Portfolio",
-        "duration": "6 weeks",
-        "skills": ["Figma", "Adobe XD", "Prototyping Tools", "Design Systems"],
-        "courses": 4,
-        "completed": 0,
-        "topics": [
-          { "name": "Mastering Figma", "completed": false },
-          { "name": "Design Systems", "completed": false },
-          { "name": "Interaction Design", "completed": false },
-          { "name": "Portfolio Building", "completed": false }
-        ]
-      }
+      { "id": "be-1", "name": "Backend Basics" },
+      { "id": "be-2", "name": "Database Design" },
+      { "id": "be-3", "name": "Advanced Patterns" }
     ]
   },
   {
     "id": 5,
     "title": "DevOps Engineer",
     "description": "Manage infrastructure and deployment pipelines",
-    "duration": "5 months",
     "difficulty": "Advanced",
-    "salary": "$110,000 - $180,000",
     "pathways": [
-      {
-        "id": "devops-1",
-        "name": "Linux & Networking Basics",
-        "duration": "6 weeks",
-        "skills": ["Linux", "Bash", "Networking", "Security"],
-        "courses": 4,
-        "completed": 0,
-        "topics": [
-          { "name": "Linux Fundamentals", "completed": false },
-          { "name": "Bash Scripting", "completed": false },
-          { "name": "Networking Basics", "completed": false },
-          { "name": "Linux Security", "completed": false }
-        ]
-      },
-      {
-        "id": "devops-2",
-        "name": "Containerization & Orchestration",
-        "duration": "8 weeks",
-        "skills": ["Docker", "Kubernetes", "Container Registry", "Orchestration"],
-        "courses": 5,
-        "completed": 0,
-        "topics": [
-          { "name": "Docker Essentials", "completed": false },
-          { "name": "Docker Compose", "completed": false },
-          { "name": "Kubernetes Basics", "completed": false },
-          { "name": "Helm & Package Management", "completed": false },
-          { "name": "Container Orchestration", "completed": false }
-        ]
-      },
-      {
-        "id": "devops-3",
-        "name": "CI/CD & Cloud",
-        "duration": "8 weeks",
-        "skills": ["CI/CD Pipelines", "AWS/GCP/Azure", "Terraform", "Monitoring"],
-        "courses": 5,
-        "completed": 0,
-        "topics": [
-          { "name": "CI/CD with Jenkins/GitLab", "completed": false },
-          { "name": "Infrastructure as Code (Terraform)", "completed": false },
-          { "name": "Cloud Platforms (AWS/GCP)", "completed": false },
-          { "name": "Monitoring & Logging", "completed": false },
-          { "name": "Disaster Recovery", "completed": false }
-        ]
-      }
+      { "id": "devops-1", "name": "Linux & Networking" },
+      { "id": "devops-2", "name": "Containerization" },
+      { "id": "devops-3", "name": "CI/CD & Cloud" }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Mobile Developer",
+    "description": "Build native and cross-platform mobile applications",
+    "difficulty": "Intermediate",
+    "pathways": [
+      { "id": "mob-1", "name": "Mobile Basics" },
+      { "id": "mob-2", "name": "Native Development" },
+      { "id": "mob-3", "name": "Advanced Features" }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "iOS Developer",
+    "description": "Develop professional iOS applications for Apple devices",
+    "difficulty": "Intermediate",
+    "pathways": [
+      { "id": "ios-1", "name": "Swift Basics" },
+      { "id": "ios-2", "name": "UIKit Development" },
+      { "id": "ios-3", "name": "Advanced iOS Patterns" }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Android Developer",
+    "description": "Create feature-rich Android applications",
+    "difficulty": "Intermediate",
+    "pathways": [
+      { "id": "and-1", "name": "Kotlin Basics" },
+      { "id": "and-2", "name": "Android Framework" },
+      { "id": "and-3", "name": "Advanced Android Development" }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Game Developer",
+    "description": "Create engaging games using modern game engines",
+    "difficulty": "Advanced",
+    "pathways": [
+      { "id": "game-1", "name": "Game Development Basics" },
+      { "id": "game-2", "name": "Game Engines" },
+      { "id": "game-3", "name": "Advanced Game Development" }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Blockchain Developer",
+    "description": "Build decentralized applications and smart contracts",
+    "difficulty": "Advanced",
+    "pathways": [
+      { "id": "bc-1", "name": "Blockchain Fundamentals" },
+      { "id": "bc-2", "name": "Smart Contracts" },
+      { "id": "bc-3", "name": "DApp Development" }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Cybersecurity Specialist",
+    "description": "Protect systems and networks from security threats",
+    "difficulty": "Advanced",
+    "pathways": [
+      { "id": "cs-1", "name": "Security Fundamentals" },
+      { "id": "cs-2", "name": "Network Security" },
+      { "id": "cs-3", "name": "Advanced Security" }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Machine Learning Engineer",
+    "description": "Design and deploy machine learning models at scale",
+    "difficulty": "Advanced",
+    "pathways": [
+      { "id": "ml-1", "name": "ML Fundamentals" },
+      { "id": "ml-2", "name": "Advanced ML Techniques" },
+      { "id": "ml-3", "name": "ML Operations" }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Cloud Engineer",
+    "description": "Design and manage cloud infrastructure",
+    "difficulty": "Intermediate",
+    "pathways": [
+      { "id": "cloud-1", "name": "Cloud Basics" },
+      { "id": "cloud-2", "name": "AWS Services" },
+      { "id": "cloud-3", "name": "Advanced Cloud Architecture" }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "AI/ML Engineer",
+    "description": "Develop artificial intelligence and machine learning solutions",
+    "difficulty": "Advanced",
+    "pathways": [
+      { "id": "ai-1", "name": "AI Fundamentals" },
+      { "id": "ai-2", "name": "Deep Learning" },
+      { "id": "ai-3", "name": "Advanced AI Applications" }
     ]
   }
 ]

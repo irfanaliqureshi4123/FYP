@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Bell, Moon, Sun, Settings, LogOut, User, Menu, Compass } from 'lucide-react';
+import { Search, Bell, Moon, Sun, Settings, LogOut, User, Menu, Compass, Shield } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
@@ -66,7 +66,7 @@ const Navbar = ({ sidebarRef }) => {
 
                         {/* Mobile Roadmap Button - Visible only on mobile */}
                         <Link
-                            to="/roadmap"
+                            to="/roadmaps"
                             className="p-2 lg:hidden text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                             title="Learning Roadmap"
                         >
@@ -129,11 +129,20 @@ const Navbar = ({ sidebarRef }) => {
                                                 <Settings className="w-5 h-5" />
                                                 <span>Settings</span>
                                             </Link>
+                                            <Link
+                                                to="/admin/dashboard"
+                                                onClick={() => setIsProfileMenuOpen(false)}
+                                                className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                            >
+                                                <Shield className="w-5 h-5 text-blue-600" />
+                                                <span>Admin Panel</span>
+                                            </Link>
                                             <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                                             <button
                                                 onClick={() => {
                                                     logout();
                                                     setIsProfileMenuOpen(false);
+                                                    navigate('/login');
                                                 }}
                                                 className="w-full flex items-center gap-3 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                                             >

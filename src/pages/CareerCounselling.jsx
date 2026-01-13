@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Search, Star, Briefcase, Clock, DollarSign, MessageCircle, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
 import counsellorsData from '../data/counsellors.json';
 import Badge from '../components/common/Badge';
 import Button from '../components/common/Button';
 import Toast from '../components/common/Toast';
+import StickPopup from '../components/common/StickPopup';
 import Avatar from '../components/common/Avatar';
 import RegisterAsCounsellorModal from '../components/modals/RegisterAsCounsellorModal';
+import RegisterAsMentorModal from '../components/modals/RegisterAsMentorModal';
 
 const CareerCounselling = () => {
     const navigate = useNavigate();
+    const { updateCounsellorStatus } = useAuth();
+    const { addCounsellorApplication } = useApp();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSpecialization, setSelectedSpecialization] = useState('All');
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
     const [toast, setToast] = useState(null);
     const [showRegisterModal, setShowRegisterModal] = useState(false);
+    const [showMentorModal, setShowMentorModal] = useState(false);
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [registrationData, setRegistrationData] = useState({ name: '', email: '' });
 
     const specializations = [
         'All',
@@ -48,8 +57,59 @@ const CareerCounselling = () => {
     };
 
     const handleRegisterSubmit = (formData) => {
+        // Convert avatar file to data URL if it exists
+        const processedData = { ...formData };
+        
+        if (formData.avatar && formData.avatarPreview) {
+            // Avatar preview is already a data URL from the modal
+            processedData.avatar = formData.avatarPreview;
+        }
+        
+        // Add counsellor application to app context
+        addCounsellorApplication(processedData);
+        
         // Handle form submission - you can send this to a backend
-        console.log('Counsellor registration submitted:', formData);
+        console.log('Counsellor registration submitted:', processedData);
+        
+        // Update user's counsellor status to pending
+        updateCounsellorStatus('pending', processedData);
+        
+        // Store registration data for popup
+        setRegistrationData({
+            name: formData.name,
+            email: formData.email
+        });
+        
+        // Show success popup
+        setShowSuccessPopup(true);
+        
+        // Close modal
+        setShowRegisterModal(false);
+    };
+
+    const handleMentorSubmit = (formData) => {
+        // Convert avatar file to data URL if it exists
+        const processedData = { ...formData };
+        
+        if (formData.avatar && formData.avatarPreview) {
+            processedData.avatar = formData.avatarPreview;
+        }
+        
+        // Add mentor application to app context (assuming addMentorApplication exists)
+        // For now, just log it
+        console.log('Mentor registration submitted:', processedData);
+        
+        // Store registration data for popup
+        setRegistrationData({
+            name: formData.name,
+            email: formData.email
+        });
+        
+        // Show success popup
+        setShowSuccessPopup(true);
+        
+        // Close modal
+        setShowMentorModal(false);
     };
 
     return (
@@ -68,7 +128,10 @@ const CareerCounselling = () => {
                             <p className="text-xs xs:text-sm text-gray-600 dark:text-gray-400 truncate">Connect with professional counsellors</p>
                         </div>
                     </div>
-                    <Button onClick={() => setShowRegisterModal(true)} className="w-full xs:w-auto whitespace-nowrap text-xs xs:text-sm py-2 xs:py-2.5">Register as Counsellor</Button>
+                    <div className="flex gap-2 w-full xs:w-auto">
+                        <Button onClick={() => setShowRegisterModal(true)} className="flex-1 xs:flex-none whitespace-nowrap text-xs xs:text-sm py-2 xs:py-2.5">Register as Counsellor</Button>
+                        <Button onClick={() => setShowMentorModal(true)} variant="outline" className="flex-1 xs:flex-none whitespace-nowrap text-xs xs:text-sm py-2 xs:py-2.5">Register as Mentor</Button>
+                    </div>
                 </div>
             </div>
 
@@ -199,6 +262,30 @@ const CareerCounselling = () => {
                 isOpen={showRegisterModal}
                 onClose={() => setShowRegisterModal(false)}
                 onSubmit={handleRegisterSubmit}
+            />
+
+            <RegisterAsMentorModal
+                isOpen={showMentorModal}
+                onClose={() => setShowMentorModal(false)}
+                onSubmit={handleMentorSubmit}
+            />
+
+            {/* Success Popup - Stays visible until user closes */}
+            <StickPopup
+                isOpen={showSuccessPopup}
+                onClose={() => setShowSuccessPopup(false)}
+                title={`Thank You, ${registrationData.name}!`}
+                message={
+                    <p>
+                        Thank you for registering as a Career Counsellor! Our team will carefully review your application and verify your credentials. Once approved, we'll notify you at{' '}
+                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                            {registrationData.email}
+                        </span>
+                        . Your normal profile will convert into a Counsellor Dashboard after approval. The review process typically takes 2-3 business days.
+                    </p>
+                }
+                type="success"
+                autoClose={false}
             />
         </div>
     );

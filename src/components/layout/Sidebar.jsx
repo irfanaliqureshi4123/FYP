@@ -1,6 +1,6 @@
 import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Compass, MessageCircle, Bell, Bookmark, User, Settings, X } from 'lucide-react';
+import { Home, Compass, MessageCircle, Bell, Bookmark, User, Settings, Users, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Avatar from '../common/Avatar';
 
@@ -17,15 +17,41 @@ const Sidebar = forwardRef((props, ref) => {
         close: () => setIsMobileOpen(false),
     }));
 
-    const navItems = [
-        { path: '/', icon: Home, label: 'Home' },
-        { path: '/explore', icon: Compass, label: 'Explore' },
-        { path: '/messages', icon: MessageCircle, label: 'Messages' },
-        { path: '/notifications', icon: Bell, label: 'Notifications', badge: 2 },
-        { path: '/saved', icon: Bookmark, label: 'Saved' },
-        { path: `/profile/${currentUser?.username || 'sarahchen'}`, icon: User, label: 'Profile' },
-        { path: '/settings', icon: Settings, label: 'Settings' },
-    ];
+    // Role-based navigation items
+    const getNavItems = () => {
+        const userRole = currentUser?.userRole || 'student';
+
+        if (userRole === 'career_counselor') {
+            // Career Counselor sees Home, Dashboard, and Settings
+            return [
+                { path: '/', icon: Home, label: 'Home' },
+                { path: '/counselor/dashboard', icon: Users, label: 'Counselor Dashboard' },
+                { path: '/settings', icon: Settings, label: 'Settings' },
+            ];
+        }
+
+        if (userRole === 'mentor') {
+            // Mentor sees Home, Dashboard, and Settings
+            return [
+                { path: '/', icon: Home, label: 'Home' },
+                { path: '/mentor/dashboard', icon: Users, label: 'Mentor Dashboard' },
+                { path: '/settings', icon: Settings, label: 'Settings' },
+            ];
+        }
+
+        // Default student navigation
+        return [
+            { path: '/', icon: Home, label: 'Home' },
+            { path: '/explore', icon: Compass, label: 'Explore' },
+            { path: '/messages', icon: MessageCircle, label: 'Messages' },
+            { path: '/notifications', icon: Bell, label: 'Notifications', badge: 2 },
+            { path: '/saved', icon: Bookmark, label: 'Saved' },
+            { path: `/profile/${currentUser?.username || 'sarahchen'}`, icon: User, label: 'Profile' },
+            { path: '/settings', icon: Settings, label: 'Settings' },
+        ];
+    };
+
+    const navItems = getNavItems();
 
     return (
         <>

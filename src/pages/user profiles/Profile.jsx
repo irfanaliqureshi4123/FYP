@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { MapPin, Link as LinkIcon, Calendar, Settings as SettingsIcon, MessageCircle, CheckCircle } from 'lucide-react';
 import usersData from '../../data/users.json';
 import postsData from '../../data/posts.json';
@@ -9,14 +9,17 @@ import Avatar from '../../components/common/Avatar';
 import Badge from '../../components/common/Badge';
 import Button from '../../components/common/Button';
 import PostCard from '../../components/posts/PostCard';
+import CounsellorDashboard from '../../components/profile/CounsellorDashboard';
 
 /**
  * Profile Page
  * User profile with cover, bio, stats, tabs
+ * Shows CounsellorDashboard if user is registered as a counsellor
  */
 const Profile = () => {
     const { username } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const { currentUser } = useAuth();
     const { followingUsers, toggleFollow } = useApp();
     const [activeTab, setActiveTab] = useState('posts');
@@ -25,6 +28,20 @@ const Profile = () => {
     const isOwnProfile = user?.id === currentUser?.id;
     const isFollowing = user && followingUsers.includes(user.id);
     const userPosts = postsData.filter(post => post.userId === user?.id);
+
+    // Check if user is a counsellor with approved status and career_counselor role
+    const isCounsellor = user?.userRole === 'career_counselor' && user?.counsellorStatus === 'approved';
+
+    // If user is a counsellor and we're viewing their profile or it's the current user, show counsellor dashboard
+    if (isCounsellor && (isOwnProfile || user.counsellorStatus === 'approved')) {
+        return (
+            <CounsellorDashboard 
+                user={user}
+                isOwnDashboard={isOwnProfile}
+                onEditClick={() => navigate(`/profile/${user?.username}/edit`)}
+            />
+        );
+    }
 
     const tabs = [
         { id: 'posts', label: 'Posts', count: userPosts.length },
